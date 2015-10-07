@@ -20,13 +20,13 @@ public class BackgroundColorChange : MonoBehaviour {
 		} else if (rand == 1) {
 			camera.backgroundColor = one;
 		} else if (rand == 2) {
-			camera.backgroundColor = two;			
+			camera.backgroundColor = two;
 		} else if (rand == 3) {
-			camera.backgroundColor = three;			
+			camera.backgroundColor = three;
 		} else if (rand == 4) {
-			camera.backgroundColor = four;			
+			camera.backgroundColor = four;
 		} else if (rand == 5) {
-			camera.backgroundColor = five;			
+			camera.backgroundColor = five;
 		}
 	}
 }
