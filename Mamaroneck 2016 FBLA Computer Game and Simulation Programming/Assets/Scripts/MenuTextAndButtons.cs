@@ -20,6 +20,8 @@ public class MenuTextAndButtons : MonoBehaviour {
 				Application.Quit ();
 			}
 			GUI.Label (new Rect (Screen.width / 2 - 100, 30, 250, 250), gameName, textStyle); //create text at top with game name
+		} else {
+
 		}
 	}
 }
