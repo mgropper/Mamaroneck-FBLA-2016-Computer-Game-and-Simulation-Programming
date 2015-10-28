@@ -19,7 +19,8 @@ public class MenuTextAndButtons : MonoBehaviour {
     }
 
 	void OnGUI () {
-		if (guiMenuEnabled) {
+        GUI.Label(new Rect(-20, 30, Screen.width, 250), gameName, textStyle); //create text at top with game name
+        if (guiMenuEnabled) {
 			if (GUI.Button (new Rect (Screen.width / 2 - 225, Screen.height - 200, 200, 125), buttonPlayTexture, rectStyle)) { //create button to play game
 				guiMenuEnabled = false;
                 playerFake.SetActive(false);
@@ -27,7 +28,6 @@ public class MenuTextAndButtons : MonoBehaviour {
 			if (GUI.Button (new Rect (Screen.width / 2 + 25, Screen.height - 200, 200, 125), buttonQuitTexture, rectStyle)) { //create button to quit game
 				Application.Quit ();
 			}
-			GUI.Label (new Rect (Screen.width / 2 - 100, 30, 250, 250), gameName, textStyle); //create text at top with game name
 		} else {
             if (GUI.Button(new Rect(Screen.width / 2 - 500, Screen.height - 500, 200, 125), "1", buttonStyle))
             { //create button to load level one
