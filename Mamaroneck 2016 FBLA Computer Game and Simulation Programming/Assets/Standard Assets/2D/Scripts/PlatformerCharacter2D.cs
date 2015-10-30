@@ -81,12 +81,15 @@ namespace UnityStandardAssets._2D
                 {
                     // ... flip the player.
                     Flip();
+                    m_Anim.SetBool("isRight", false);
+
                 }
                     // Otherwise if the input is moving the player left and the player is facing right...
                 else if (move < -0.0 && m_FacingRight)
                 {
                     // ... flip the player.
                     Flip();
+                    m_Anim.SetBool("isRight", true);
                 }
             }
             // If the player should jump...
