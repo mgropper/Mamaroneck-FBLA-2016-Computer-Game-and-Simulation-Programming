@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class Respawn : MonoBehaviour {
-    public Transform low;
     public Transform origin;
     public GameObject player;
     public bool checkpoint = false;
@@ -14,15 +13,16 @@ public class Respawn : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(player.transform.position.y <= low.position.y) {
-            transform.localPosition = origin.position;
+	    if(player.transform.position.y < 0 && player.transform.position.y <= -7) {
+            player.transform.position = origin.position;
+        } if (player.transform.position.y > 0 && player.transform.position.y < 0) {
+            player.transform.position = origin.position;
         }
 	}
 
-    void OnTriggerEnter(Collider other) {
-        low.transform.position = new Vector3(transform.localPosition.x, transform.localPosition.y - 1);
+    void OnTriggerEnter() {
         if (checkpoint) {
-            origin.transform.position = new Vector3(transform.localPosition.x, transform.localPosition.y + (float) 0.5);
+            origin.transform.position = new Vector3(transform.localPosition.x, transform.localPosition.y + 2);
         }
     }
 }
