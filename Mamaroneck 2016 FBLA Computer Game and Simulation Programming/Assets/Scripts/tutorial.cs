@@ -6,9 +6,11 @@ public class tutorial : MonoBehaviour {
     public GUIStyle image;
     public GUIStyle text;
     bool tut = true;
+    
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
 
     }
 	
