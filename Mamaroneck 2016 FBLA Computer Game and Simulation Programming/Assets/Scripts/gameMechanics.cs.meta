@@ -1,10 +1,23 @@
 fileFormatVersion: 2
 guid: 6056977644335ce42a86e34eb0711f27
-timeCreated: 1452526582
+timeCreated: 1452791018
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - origin: {instanceID: 0}
+  - player: {instanceID: 0}
+  - topLeftG: {instanceID: 0}
+  - topRightG: {instanceID: 0}
+  - bottomLeftG: {instanceID: 0}
+  - bottomRightG: {instanceID: 0}
+  - middleG: {instanceID: 0}
+  - pieceG: {instanceID: 0}
+  - orig: {fileID: 21300014, guid: 9224098fb627fe849b1adb63c8c991c6, type: 3}
+  - pants: {fileID: 21300046, guid: 9224098fb627fe849b1adb63c8c991c6, type: 3}
+  - tie: {fileID: 21300062, guid: 9224098fb627fe849b1adb63c8c991c6, type: 3}
+  - jacket: {fileID: 21300078, guid: 9224098fb627fe849b1adb63c8c991c6, type: 3}
+  - shoes: {fileID: 21300030, guid: 9224098fb627fe849b1adb63c8c991c6, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
