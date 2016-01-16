@@ -85,11 +85,11 @@ public class gameMechanics : MonoBehaviour
 			}
 			else if (bottomLeft)
 			{
-				player.GetComponent<SpriteRenderer>().sprite = tie;
+				player.GetComponent<SpriteRenderer>().sprite = shoes;
 			}
 			else if (bottomRight)
 			{
-				player.GetComponent<SpriteRenderer>().sprite = shoes;
+				player.GetComponent<SpriteRenderer>().sprite = tie;
 			}
 			hasObject.SetActive(true);
 			pieceG.SetActive(false);
@@ -101,11 +101,13 @@ public class gameMechanics : MonoBehaviour
             {
                 topRightG.SetActive(false);
                 bottomRightG.SetActive(true);
+				hasObject.SetActive(false);
             }
 			else if (hasObject.activeSelf && area.name == "topLeft" && !piece)
             {
                 topLeftG.SetActive(false);
                 bottomLeftG.SetActive(true);
+				hasObject.SetActive(false);
             }
 			else if (hasObject.activeSelf && area.name == "bottomLeft" && !piece)
             {
@@ -113,9 +115,9 @@ public class gameMechanics : MonoBehaviour
             }
 			else if (hasObject.activeSelf && area.name == "bottomRight" && !piece)
             {
-
                 topLeftG.SetActive(true);
                 bottomRightG.SetActive(false);
+				hasObject.SetActive(false);
             }
         }
 		else if (topLeft && !hasObject.activeSelf)
