@@ -29,15 +29,15 @@ public class MenuTextAndButtons : MonoBehaviour {
 				Application.Quit ();
 			}
 		} else {
-            if (GUI.Button(new Rect(Screen.width / 2 - 500, Screen.height - 500, 200, 125), "1", buttonStyle))
+            if (GUI.Button(new Rect(Screen.width / 2 - 500, Screen.height / 2, 200, 125), "1", buttonStyle))
             { //create button to load level one
                 Application.LoadLevel(1);
             }
-            if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height - 500, 200, 125), "2", buttonStyle))
+			if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2, 200, 125), "2", buttonStyle))
             { //create button to load level 2
                 Application.LoadLevel(2);
             }
-            if (GUI.Button(new Rect(Screen.width / 2 + 300, Screen.height - 500, 200, 125), "3", buttonStyle))
+			if (GUI.Button(new Rect(Screen.width / 2 + 300, Screen.height / 2, 200, 125), "3", buttonStyle))
             { //create button to load level 3
                 Application.LoadLevel(3);
             }

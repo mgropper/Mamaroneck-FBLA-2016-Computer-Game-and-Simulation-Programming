@@ -8,13 +8,12 @@ public class playerController : MonoBehaviour {
 	public float moveSpeed;
 	public float jumpHeight;
 	private bool facingRight;
-	private float h;
 	public Transform groundCheck;
 	public float groundCheckRadius;
 	public LayerMask whatIsGround;
 	private bool grounded;
-	private bool once = true;
 	private Animator anim;
+	private float h;
 
 	// Use this for initialization
 	void Start () {
@@ -23,41 +22,33 @@ public class playerController : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-
-		//Vector2 pos = new Vector2(groundCheck.transform.position.x, groundCheck.position.y);
-		//grounded = GetComponent<Physics2D>().OverlapCircle(pos, groundCheckRadius, whatIsGround);
+		//grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+		h = CrossPlatformInputManager.GetAxis("Horizontal");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		h = CrossPlatformInputManager.GetAxis("Horizontal");
+		anim.SetFloat("speed", Mathf.Abs(h));
+		anim.SetBool ("ground", grounded);
 		if (move) {
 			if (Input.GetKeyDown (KeyCode.Space)) {
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpHeight);
 			}
 			if (Input.GetKey (KeyCode.D)) {
-				if (!facingRight && once) {
-					once = false;
+				if (!facingRight) {
 					Flip ();
 					facingRight = true;
 				}
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (moveSpeed, GetComponent<Rigidbody2D> ().velocity.y);
 			} 
-			if(Input.GetKeyUp(KeyCode.D)){
-				once = true;
-			}
 			if (Input.GetKey (KeyCode.A)) {
-				if (facingRight && once) {
-					once = false;
+				if (facingRight) {
 					Flip ();
 					facingRight = false;
 				}
 				GetComponent<Rigidbody2D> ().velocity = new Vector2 (-moveSpeed, GetComponent<Rigidbody2D> ().velocity.y);
 			}
-			if(Input.GetKeyUp(KeyCode.A)){
-				once = true;
-			}
-			anim.SetFloat("speed", Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x));
+
 		}
 	}
 
