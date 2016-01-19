@@ -97,48 +97,47 @@ public class gameMechanics : MonoBehaviour
 		}else if (middle)
         {
             origin.position = new Vector3(1.3f, 1.1f);
-			if (hasObject.activeSelf && area.name == "topRight" && !piece)
+            if (hasObject.activeInHierarchy && area.name.Equals("topLeft") && !piece)
             {
-                topRightG.SetActive(false);
-                bottomRightG.SetActive(true);
-				hasObject.SetActive(false);
-            }
-			else if (hasObject.activeSelf && area.name == "topLeft" && !piece)
-            {
+                hasObject.SetActive(false);
                 topLeftG.SetActive(false);
-                bottomLeftG.SetActive(true);
-				hasObject.SetActive(false);
             }
-			else if (hasObject.activeSelf && area.name == "bottomLeft" && !piece)
+            if (hasObject.activeInHierarchy && area.name.Equals("topRight") && !piece)
+            {
+                bottomRightG.SetActive(true);
+                topRightG.SetActive(false);
+                hasObject.SetActive(false);
+            }
+		    if (hasObject.activeInHierarchy && area.name.Equals("bottomLeft") && !piece)
             {
                 Application.LoadLevel(2);
             }
-			else if (hasObject.activeSelf && area.name == "bottomRight" && !piece)
+			if (hasObject.activeInHierarchy && area.name.Equals("bottomRight") && !piece)
             {
                 topLeftG.SetActive(true);
                 bottomRightG.SetActive(false);
 				hasObject.SetActive(false);
             }
         }
-		else if (topLeft && !hasObject.activeSelf)
+		else if (topLeft && !hasObject.activeInHierarchy)
         {
             origin.position = new Vector3(-2.7f, 3.1f);
             middleG.SetActive(false);
 			area.name = "topLeft";
         }
-		else if (topRight && !hasObject.activeSelf)
+		else if (topRight && !hasObject.activeInHierarchy)
         {
             origin.position = new Vector3(5.3f, 3.1f);
             middleG.SetActive(false);
 			area.name = "topRight";
         }
-		else if (bottomLeft && !hasObject.activeSelf)
+		else if (bottomLeft && !hasObject.activeInHierarchy)
         {
             origin.position = new Vector3(-2.7f, -0.9f);
             middleG.SetActive(false);
 			area.name = "bottomLeft";
         }
-		else if (bottomRight && !hasObject.activeSelf)
+		else if (bottomRight && !hasObject.activeInHierarchy)
         {
             origin.position = new Vector3(5.3f, -0.9f);
             middleG.SetActive(false);

@@ -17,12 +17,12 @@ public class elevator : MonoBehaviour {
 	void Update () {
 		if (up) {
 			platform.transform.position = new Vector3 (platform.transform.position.x, platform.transform.position.y + speed);
-			if(platform.transform.position.y == max){
+			if(platform.transform.position.y >= max){
 				up = false;
 			}
 		}else{
 			platform.transform.position = new Vector3 (platform.transform.position.x, platform.transform.position.y - speed);
-			if(platform.transform.position.y == min){
+			if(platform.transform.position.y <= min){
 				up = true;
 			}
 		}
