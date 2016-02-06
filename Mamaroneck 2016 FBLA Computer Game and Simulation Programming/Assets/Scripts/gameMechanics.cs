@@ -242,7 +242,7 @@ public class gameMechanics : MonoBehaviour
 				wearing = "shoes";
 				shoesP.SetActive (false);
 			}
-		} else if (!hasObject && ((player.transform.position.x > 3.2 && player.transform.position.x < 10) || (player.transform.position.x < -3.2 && player.transform.position.x > -10))) {
+		} else if (!hasObject && ((player.transform.position.x > 3.2 && player.transform.position.x < 10) || (player.transform.position.x < -1.1 && player.transform.position.x > -10))) {
 			middleG.SetActive (false);
 			if(wearing.Equals("orig")){
 				area = "topRight";
@@ -257,7 +257,7 @@ public class gameMechanics : MonoBehaviour
 				area = "bottomLeft";
 				origin.position = new Vector3(-2.7f, -0.9f);
 			}
-		} else if (hasObject && (player.transform.position.x < 3.1 && player.transform.position.x > -3.1)) {
+		} else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > -1)) {
 			hasObject = false;
 			area = "middle";
 			origin.position = new Vector3(1.3f, 1.1f);
