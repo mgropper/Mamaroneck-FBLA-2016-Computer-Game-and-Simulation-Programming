@@ -163,6 +163,7 @@ public class gameMechanics : MonoBehaviour
 	public Sprite jacket;
 	public Sprite shoes;
 	private string area = "middle";
+	private string wearing = "orig";
 	
 	// Use this for initialization
 	void Start()
@@ -184,14 +185,18 @@ public class gameMechanics : MonoBehaviour
 			if (area.Equals("topLeft"))
 			{
 				player.GetComponent<SpriteRenderer>().sprite = tie;
-				pantsP.SetActive(true);
+				wearing = "tie";
+				jacketP.SetActive(true);
+				middleG.SetActive(false);
 			}
 			else if (area.Equals("topRight"))
 			{
 				player.GetComponent<SpriteRenderer>().sprite = orig;
-				jacketP.SetActive(true);
+				wearing = "orig";
+				pantsP.SetActive(true);
+				middleG.SetActive(false);
 			}
-			middleG.SetActive(false);
+
 		}
 		else if ((area.Equals("bottomLeft") || area.Equals("bottomRight") || area.Equals("middle")) && player.transform.position.y < -10)
 		{
@@ -200,43 +205,104 @@ public class gameMechanics : MonoBehaviour
 			if (area.Equals("bottomLeft"))
 			{
 				player.GetComponent<SpriteRenderer>().sprite = jacket;
+				wearing = "jacket";
 				shoesP.SetActive(true);
+				middleG.SetActive(false);
 			}
 			else if (area.Equals("bottomRight"))
 			{
 				player.GetComponent<SpriteRenderer>().sprite = pants;
+				wearing = "pants";
 				tieP.SetActive(true);
+				middleG.SetActive(false);
 			}
-			middleG.SetActive(false);
+
 		}
 	}
 	
 	void OnTriggerEnter2D()
 	{
-		if (!hasObject && !area.Equals("middle"))
+		if (!hasObject && (player.transform.position.x < -60 || player.transform.position.x > 60)) {
+			middleG.SetActive (true);
+			hasObject = true;
+			if (wearing.Equals ("orig")) {
+				pantsP.SetActive (false);
+				player.GetComponent<SpriteRenderer> ().sprite = pants;
+				wearing = "pants";
+			} else if (wearing.Equals ("pants")) {
+				player.GetComponent<SpriteRenderer> ().sprite = tie;
+				wearing = "tie";
+				tieP.SetActive (false);
+			} else if (wearing.Equals ("tie")) {
+				player.GetComponent<SpriteRenderer> ().sprite = jacket;
+				wearing = "jacket";
+				jacketP.SetActive (false);
+			} else if (wearing.Equals ("jacket")) {
+				player.GetComponent<SpriteRenderer> ().sprite = shoes;
+				wearing = "shoes";
+				shoesP.SetActive (false);
+			}
+		} else if (!hasObject && ((player.transform.position.x > 3.2 && player.transform.position.x < 10) || (player.transform.position.x < -3.2 && player.transform.position.x > -10))) {
+			middleG.SetActive (false);
+			if(wearing.Equals("orig")){
+				area = "topRight";
+				origin.position = new Vector3(5.3f, 3.1f);
+			}else if(wearing.Equals("pants")){
+				area = "bottomRight";
+				origin.position = new Vector3(5.3f, -0.9f);
+			}else if(wearing.Equals("tie")){
+				area = "topLeft";
+				origin.position = new Vector3(-2.7f, 3.1f);
+			}else if(wearing.Equals("jacket")){
+				area = "bottomLeft";
+				origin.position = new Vector3(-2.7f, -0.9f);
+			}
+		} else if (hasObject && (player.transform.position.x < 3.1 && player.transform.position.x > -3.1)) {
+			hasObject = false;
+			area = "middle";
+			origin.position = new Vector3(1.3f, 1.1f);
+			if(wearing.Equals("pants")){
+				topRightG.SetActive(false);
+				bottomRightG.SetActive(true);
+			}else if(wearing.Equals("tie")){
+				bottomRightG.SetActive(false);
+				topLeftG.SetActive(true);
+			}else if(wearing.Equals("jacket")){
+				topLeftG.SetActive(false);
+				bottomLeftG.SetActive(true);
+			}else if(wearing.Equals("shoes")){
+				Application.LoadLevel(Application.loadedLevel + 1);
+			}
+		}
+
+		/*if (!hasObject && !area.Equals("middle"))
 		{
 			middleG.SetActive(true);
+			hasObject = true;
 			if (area.Equals("topLeft"))
 			{
 				player.GetComponent<SpriteRenderer>().sprite = jacket;
+				wearing = "jacket";
 				jacketP.SetActive(false);
 			}
 			else if (area.Equals("topRight"))
 			{
 				player.GetComponent<SpriteRenderer>().sprite = pants;
+				wearing = "pants";
 				pantsP.SetActive(false);
 			}
 			else if (area.Equals("bottomLeft"))
 			{
 				player.GetComponent<SpriteRenderer>().sprite = shoes;
+				wearing = "shoes";
 				shoesP.SetActive(false);
 			}
 			else if (area.Equals("bottomRight"))
 			{
 				player.GetComponent<SpriteRenderer>().sprite = tie;
+				wearing = "tie";
 				tieP.SetActive(false);
 			}
-			hasObject = (true);
 			
 		}else if (hasObject)
 		{
@@ -266,29 +332,29 @@ public class gameMechanics : MonoBehaviour
 				area = "middle";
 			}
 		}
-		else if (player.GetComponent<SpriteRenderer>().sprite.Equals(tie) && !hasObject && area.Equals("middle"))
+		else if (wearing.Equals("tie") && !hasObject && area.Equals("middle"))
 		{
 			origin.position = new Vector3(-2.7f, 3.1f);
 			middleG.SetActive(false);
 			area = "topLeft";
 		}
-		else if (player.GetComponent<SpriteRenderer>().sprite.Equals(orig) && !hasObject && area.Equals("middle"))
+		else if (wearing.Equals("orig") && !hasObject && area.Equals("middle"))
 		{
 			origin.position = new Vector3(5.3f, 3.1f);
 			middleG.SetActive(false);
 			area = "topRight";
 		}
-		else if (player.GetComponent<SpriteRenderer>().sprite.Equals(pants) && !hasObject && area.Equals("middle"))
+		else if (wearing.Equals("pants") && !hasObject && area.Equals("middle"))
 		{
 			origin.position = new Vector3(-2.7f, -0.9f);
 			middleG.SetActive(false);
 			area = "bottomLeft";
 		}
-		else if (player.GetComponent<SpriteRenderer>().sprite.Equals(jacket) && !hasObject && area.Equals("middle"))
+		else if (wearing.Equals("jacket") && !hasObject && area.Equals("middle"))
 		{
 			origin.position = new Vector3(5.3f, -0.9f);
 			middleG.SetActive(false);
 			area = "bottomRight";
-		} 
+		} */
 	}
 }
