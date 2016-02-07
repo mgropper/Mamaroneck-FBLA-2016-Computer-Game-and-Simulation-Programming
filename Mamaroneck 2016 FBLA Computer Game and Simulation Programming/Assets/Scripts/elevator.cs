@@ -7,6 +7,7 @@ public class elevator : MonoBehaviour {
 	public float speed;
 	public GameObject platform;
 	private bool up;
+	private bool able = true;
 
 	// Use this for initialization
 	void Start () {
@@ -15,16 +16,22 @@ public class elevator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (up) {
-			platform.transform.position = new Vector3 (platform.transform.position.x, platform.transform.position.y + speed);
-			if(platform.transform.position.y >= max){
-				up = false;
-			}
-		}else{
-			platform.transform.position = new Vector3 (platform.transform.position.x, platform.transform.position.y - speed);
-			if(platform.transform.position.y <= min){
-				up = true;
+		if (able) {
+			if (up) {
+				platform.transform.position = new Vector3 (platform.transform.position.x, platform.transform.position.y + speed);
+				if (platform.transform.position.y >= max) {
+					up = false;
+				}
+			} else {
+				platform.transform.position = new Vector3 (platform.transform.position.x, platform.transform.position.y - speed);
+				if (platform.transform.position.y <= min) {
+					up = true;
+				}
 			}
 		}
+	}
+
+	public static void setAble(bool ability){
+		able = ability;
 	}
 }

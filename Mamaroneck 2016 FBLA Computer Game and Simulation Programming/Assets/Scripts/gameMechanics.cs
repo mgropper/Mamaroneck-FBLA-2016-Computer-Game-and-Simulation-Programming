@@ -173,6 +173,7 @@ public class gameMechanics : MonoBehaviour
 		topLeftG.SetActive(false);
 		bottomRightG.SetActive(false);
 		bottomLeftG.SetActive(false);
+		UnityEngine.Cursor.visible = false;
 	}
 	
 	// Update is called once per frame
