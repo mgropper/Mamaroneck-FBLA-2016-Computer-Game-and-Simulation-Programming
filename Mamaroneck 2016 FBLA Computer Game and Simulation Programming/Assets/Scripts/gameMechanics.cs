@@ -22,26 +22,36 @@ public class gameMechanics : MonoBehaviour
 	public Sprite shoes;
 	private string area = "middle";
 	private string wearing = "orig";
-	private bool on = true;
 	public GUIStyle title;
-	
+	public GUIStyle afterTitle;
+	public Font scoreMenuF;
+	public GUIStyle time;
+	public static bool record = false;
+	private float currentSeconds = .0f;
+	private float currentMinute = .0f;
+	private float currentHour = .0f;
+	public GUIStyle retryButton;
+	private bool start = true;
+	public float score = 0;
+	public static bool scoreMenu = false;
+
 	// Use this for initialization
 	void Start()
 	{
-		middleG.SetActive(true);
-		topRightG.SetActive(true);
-		topLeftG.SetActive(false);
-		bottomRightG.SetActive(false);
-		bottomLeftG.SetActive(false);
-		Cursor.visible = false;
-		StartCoroutine(wait());
-
-
+		middleG.SetActive (true);
+		topRightG.SetActive (true);
+		topLeftG.SetActive (false);
+		bottomRightG.SetActive (false);
+		bottomLeftG.SetActive (false);
 	}
 	
 	// Update is called once per frame
 	void Update()
 	{
+		if (Platformer2DUserControl.h > 0.0 && start) {
+			record = true;
+			start = false;
+		}
 		if ((area.Equals("topLeft") || area.Equals("topRight")) && player.transform.position.y < -6)
 		{
 			player.transform.position = origin.transform.position;
@@ -82,6 +92,18 @@ public class gameMechanics : MonoBehaviour
 			}
 
 		}
+
+		if (record) {
+			currentSeconds += 1 * Time.deltaTime;
+			if(Mathf.RoundToInt(currentSeconds) == 60){
+				currentSeconds = 0;
+				currentMinute++;
+			}else if(currentMinute == 60f){
+				currentMinute = 0;
+				currentHour++;
+			}
+		}
+
 	}
 	
 	void OnTriggerEnter2D()
@@ -135,19 +157,43 @@ public class gameMechanics : MonoBehaviour
 				topLeftG.SetActive(false);
 				bottomLeftG.SetActive(true);
 			}else if(wearing.Equals("shoes")){
-				Application.LoadLevel(Application.loadedLevel + 1);
+				record = false;
+				GameObject.Find("character").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+				if(currentSeconds > 10){
+					score = 1000 - (currentMinute * 100) - currentSeconds;
+				}else{
+					score = 1000 - (currentMinute * 100) - (currentSeconds*10);
+				}
+				scoreMenu = true;
+
 			}
 		}
 	}
 
 	void OnGUI(){
-		if (on) {
-			GUI.Label(new Rect(Screen.width / 2 - 37.5f, Screen.height / 2 - 200, 75, 75), "Level " + (Application.loadedLevel), title);
+		GUI.skin.box.font = scoreMenuF;
+		GUI.skin.button.font = scoreMenuF;
+		GUI.skin.box.fontSize = 25;
+		if (!scoreMenu) {
+			if ((GUI.Button (new Rect (70, 10, 50, 50), "", retryButton)) || Input.GetKey (KeyCode.R)) {
+				Application.LoadLevel (Application.loadedLevel);
+			}
+			GUI.Label (new Rect (170, 25, 25, 25), "Level " + (Application.loadedLevel), afterTitle);
+			GUI.Label (new Rect (Screen.width / 2, 10, 50, 50), string.Format ("{0:00}:{1:00}", currentMinute, currentSeconds), time);
+		}else{
+			GUI.Box(new Rect(Screen.width /2 - 100,Screen.height /2 - 150,250,250), "" + Mathf.RoundToInt(score));
+			if(GUI.Button(new Rect(Screen.width /2 - 100,Screen.height /2 - 100,250,50), "Main Menu")){
+				Application.LoadLevel(0);
+			}
+			if(GUI.Button(new Rect(Screen.width /2 - 100,Screen.height /2 - 50,250,50), "Next Level")){
+				Application.LoadLevel(Application.loadedLevel + 1);
+			}
+			if(GUI.Button (new Rect (Screen.width /2 - 100,Screen.height /2,250,50), "Restart Level")){
+				Application.LoadLevel(Application.loadedLevel);
+			}
+			if (GUI.Button (new Rect (Screen.width /2 - 100,Screen.height /2 + 50,250,50), "Quit Game")){
+				Application.Quit();
+			}
 		}
-	}
-
-	IEnumerator wait() {
-		yield return new WaitForSeconds (1.125f);
-		on = false;
 	}
 }
