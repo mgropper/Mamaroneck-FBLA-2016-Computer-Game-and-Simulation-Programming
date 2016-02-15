@@ -5,7 +5,7 @@ using System.Collections;
  * */
 public class MenuTextAndButtons : MonoBehaviour {
     public GameObject playerFake;
-    bool guiMenuEnabled = true;
+    public bool guiMenuEnabled = true;
 	public string gameName;
 	public Texture buttonPlayTexture;
 	public Texture buttonQuitTexture;
@@ -16,6 +16,7 @@ public class MenuTextAndButtons : MonoBehaviour {
 
     void start(){
         anim.SetBool("isMenu", true);
+		DontDestroyOnLoad (transform.gameObject);
     }
 
 	void OnGUI () {
