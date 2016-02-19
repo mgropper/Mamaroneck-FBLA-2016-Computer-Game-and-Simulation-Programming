@@ -2,16 +2,17 @@
 using System.Collections;
 
 public class tutorial : MonoBehaviour {
-    public GameObject tutCam;
-    public GUIStyle image;
-    public GUIStyle text;
-    bool tut = true;
-    
+	private bool pauseRety = true;
+	public GUIStyle nextButton;
 
 
     // Use this for initialization
     void Start () {
-
+		slider.able = false;
+		elevator.able = false;
+		PlatformerCharacter2D.ableFlip = false;
+		gameMechanics.record = false;
+		GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
     }
 	
 	// Update is called once per frame
@@ -20,11 +21,10 @@ public class tutorial : MonoBehaviour {
 	}
 
     void OnGUI() {
-        if (tut){
-            GUI.Label(new Rect(Screen.width/2 - 125, 200, 200, 125), "The objective of every level is to suit up. \nIn order to suit up, you must retrieve the jacket, tie, shoes and pants.\nOne of these can found at the end of each path.\nHowever, if you fall, you must start over again", text);
-            if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height - 200, 200, 175), "", image)) {
-                Application.LoadLevel(2);
-            }
-        }
+        if (pauseRety) {
+			if(GUI.Button(new Rect(Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)){
+				pauseRety = false;
+			}
+		}
     }
 }

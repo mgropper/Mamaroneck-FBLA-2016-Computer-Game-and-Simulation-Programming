@@ -1,47 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
-/**
- * 
- * */
+
 public class MenuTextAndButtons : MonoBehaviour {
-    public GameObject playerFake;
     public bool guiMenuEnabled = true;
-	public string gameName;
 	public Texture buttonPlayTexture;
 	public Texture buttonQuitTexture;
+	public Texture buttonBackTexture;
 	public GUIStyle textStyle;
 	public GUIStyle rectStyle;
     public GUIStyle buttonStyle;
-    public Animator anim;
-
+	public Font font;
     void start(){
-        anim.SetBool("isMenu", true);
-		DontDestroyOnLoad (transform.gameObject);
+
     }
 
 	void OnGUI () {
-        GUI.Label(new Rect(-20, 30, Screen.width, 250), gameName, textStyle); //create text at top with game name
+		GUI.Label(new Rect(0, 0, Screen.width, 250), "Nightmares:\nThe Mamaroneck FBLA\n2016 Computer Game and Simulation Programming Submission", textStyle); //create text at top with game name
         if (guiMenuEnabled) {
-			if (GUI.Button (new Rect (Screen.width / 2 - 225, Screen.height - 200, 200, 125), buttonPlayTexture, rectStyle)) { //create button to play game
+			if (GUI.Button (new Rect (Screen.width / 2 - 250, Screen.height/2 - 50, 200, 125), buttonPlayTexture, rectStyle)) { //create button to play game
 				guiMenuEnabled = false;
-                playerFake.SetActive(false);
 			}
-			if (GUI.Button (new Rect (Screen.width / 2 + 25, Screen.height - 200, 200, 125), buttonQuitTexture, rectStyle)) { //create button to quit game
+			if (GUI.Button (new Rect (Screen.width / 2 + 50, Screen.height/2 - 50, 200, 125), buttonQuitTexture, rectStyle)) { //create button to quit game
 				Application.Quit ();
 			}
 		} else {
-            if (GUI.Button(new Rect(Screen.width / 2 - 500, Screen.height / 2, 200, 125), "1", buttonStyle))
+			if (GUI.Button(new Rect(175, Screen.height / 2 - 100, 175, 125), "Tutorial", buttonStyle))
+			{ //create button to load level one
+				Application.LoadLevel("tutorial");
+			}
+			if (GUI.Button(new Rect(425, Screen.height / 2 - 100, 175, 125), "Level 1", buttonStyle))
             { //create button to load level one
-                Application.LoadLevel(1);
+                Application.LoadLevel("level1");
             }
-			if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2, 200, 125), "2", buttonStyle))
+			if (GUI.Button(new Rect(675, Screen.height / 2 - 100, 175, 125), "Level 2", buttonStyle))
             { //create button to load level 2
-                Application.LoadLevel(2);
+                Application.LoadLevel("level2");
             }
-			if (GUI.Button(new Rect(Screen.width / 2 + 300, Screen.height / 2, 200, 125), "3", buttonStyle))
+			if (GUI.Button(new Rect(925, Screen.height / 2 - 100, 175, 125), "Level 3", buttonStyle))
             { //create button to load level 3
-                Application.LoadLevel(3);
+                Application.LoadLevel("level3");
             }
+			if (GUI.Button (new Rect (Screen.width / 2 - 250, Screen.height - 200, 200, 125), buttonBackTexture, rectStyle)) { //create button to play game
+				guiMenuEnabled = true;
+			}
+			if (GUI.Button (new Rect (Screen.width / 2 + 50, Screen.height - 200, 200, 125), buttonQuitTexture, rectStyle)) { //create button to quit game
+				Application.Quit ();
+			}
         }
 	}
 }

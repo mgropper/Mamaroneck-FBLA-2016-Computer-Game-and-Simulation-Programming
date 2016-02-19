@@ -1,10 +1,16 @@
 fileFormatVersion: 2
 guid: 11c367b7f19614252bb5cd78f9b1c78a
-timeCreated: 1454803660
+timeCreated: 1455899230
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - pauseMenuFont: {fileID: 12800000, guid: 208aa14e606eecf40a4f7f28abf3ea38, type: 3}
+  - backT: {fileID: 2800000, guid: 822655e6b73830b4d823770a979f3bb5, type: 3}
+  - mainMenuT: {fileID: 2800000, guid: 1e4b8e6fd1bd5404ba17585f62e571c3, type: 3}
+  - settingsT: {fileID: 2800000, guid: 14a48232720b008449c9d4ed3f0a26e8, type: 3}
+  - restartT: {fileID: 2800000, guid: feff2c38632b01640b8c4291403a8cde, type: 3}
+  - quitT: {fileID: 2800000, guid: 055d5058ff6230d4d88e3044a207f815, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

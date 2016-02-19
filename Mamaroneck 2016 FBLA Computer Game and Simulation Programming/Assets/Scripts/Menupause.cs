@@ -4,11 +4,16 @@ using System.Collections;
 public class Menupause : MonoBehaviour
 {
 	public Font pauseMenuFont;
-	public GameObject cc;
-	private bool pauseEnabled = false;
+	public static bool pauseEnabled = false;
 	private bool showGraphicsDropDown = false;
 	private bool back = false;
 	public GUIStyle pauseButton;
+	public Texture backT;
+	public Texture mainMenuT;
+	public Texture settingsT;
+	public Texture restartT;
+	public Texture quitT;
+	public GUIStyle buttonStyle;
 
 
 	// Use this for initialization
@@ -63,11 +68,11 @@ public class Menupause : MonoBehaviour
 		GUI.skin.button.font = pauseMenuFont;
 		Cursor.visible = true;
 		if (pauseEnabled == true) {
-			GUI.Box (new Rect (Screen.width / 2 - 100, Screen.height / 2 - 150, 250, 300), "Pause Menu");
-			if (GUI.Button (new Rect (Screen.width / 2 - 100, Screen.height / 2 - 50, 250, 50), "Main Menu")) {
+			GUI.Box (new Rect (400, Screen.height / 2 - 190, 500, 100), "Game Paused");
+			if (GUI.Button (new Rect (525, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)) {
 				Application.LoadLevel (0);
 			}
-			if (GUI.Button (new Rect (Screen.width / 2 - 100, Screen.height / 2, 250, 50), "Change Quality Settings")) {
+			if (GUI.Button (new Rect (625, Screen.height / 2 - 150, 50, 50), settingsT, buttonStyle)) {
 				if (showGraphicsDropDown == false) {
 					showGraphicsDropDown = true;
 				} else {
@@ -75,49 +80,45 @@ public class Menupause : MonoBehaviour
 				}
 			}
 			if (showGraphicsDropDown == true) {
-				if (GUI.Button (new Rect (Screen.width / 2 + 150, Screen.height / 2, 250, 50), "Fastest")) {
+				GUI.Box (new Rect (525, Screen.height / 2 - 90, 250, 350), "Quality Settings");
+				if (GUI.Button (new Rect (525, Screen.height / 2 - 40, 250, 50), "Fastest")) {
 					QualitySettings.SetQualityLevel (0);
 					showGraphicsDropDown = false;
 					back = true;		
 				}
-				if (GUI.Button (new Rect (Screen.width / 2 + 150, Screen.height / 2 + 50, 250, 50), "Fast")) {
+				if (GUI.Button (new Rect (525, Screen.height / 2 + 10, 250, 50), "Fast")) {
 					QualitySettings.SetQualityLevel (1);
 					showGraphicsDropDown = false;
 					back = true;	
 				}
-				if (GUI.Button (new Rect (Screen.width / 2 + 150, Screen.height / 2 + 100, 250, 50), "Simple")) {
+				if (GUI.Button (new Rect (525, Screen.height / 2 + 60, 250, 50), "Simple")) {
 					QualitySettings.SetQualityLevel (2);
 					showGraphicsDropDown = false;
 					back = true;	
 				}
-				if (GUI.Button (new Rect (Screen.width / 2 + 150, Screen.height / 2 + 150, 250, 50), "Good")) {
+				if (GUI.Button (new Rect (525, Screen.height / 2 + 110, 250, 50), "Good")) {
 					QualitySettings.SetQualityLevel (3);
 					showGraphicsDropDown = false;
 					back = true;	
 				}
-				if (GUI.Button (new Rect (Screen.width / 2 + 150, Screen.height / 2 + 200, 250, 50), "Beautiful")) {
+				if (GUI.Button (new Rect (525, Screen.height / 2 + 160, 250, 50), "Beautiful")) {
 					QualitySettings.SetQualityLevel (4);
 					showGraphicsDropDown = false;
 					back = true;	
 				}
-				if (GUI.Button (new Rect (Screen.width / 2 + 150, Screen.height / 2 + 250, 250, 50), "Fantastic")) {
+				if (GUI.Button (new Rect (525, Screen.height / 2 + 210, 250, 50), "Fantastic")) {
 					QualitySettings.SetQualityLevel (5);
 					showGraphicsDropDown = false;
 					back = true;	
 				}
-				
-				if (Input.GetKeyDown ("escape") && !gameMechanics.scoreMenu) {
-					showGraphicsDropDown = false;
-					pauseEnabled = false;
-				}
 			}
-			if (GUI.Button (new Rect (Screen.width / 2 - 100, Screen.height / 2 + 50, 250, 50), "Restart Level")) {
+			if (GUI.Button (new Rect (725, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
 				Application.LoadLevel (Application.loadedLevel);
 			}
-			if (GUI.Button (new Rect (Screen.width / 2 - 100, Screen.height / 2 + 100, 250, 50), "Quit Game")) {
+			if (GUI.Button (new Rect (825, Screen.height / 2 - 	150, 50, 50), quitT, buttonStyle)) {
 				Application.Quit ();
 			}
-			if (GUI.Button (new Rect (Screen.width / 2 - 100, Screen.height / 2 - 100, 250, 50), "Back")) {
+			if (GUI.Button (new Rect (425, Screen.height / 2 - 	150, 50, 50), backT, buttonStyle)) {
 				pauseEnabled = false;
 				back = false;
 				slider.able = true;

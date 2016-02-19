@@ -31,7 +31,7 @@ public class gameMechanics : MonoBehaviour
 	private float currentMinute = .0f;
 	private float currentHour = .0f;
 	public GUIStyle retryButton;
-	private bool start = true;
+	public static bool start = false;
 	public float score = 0;
 	public static bool scoreMenu = false;
 
@@ -48,9 +48,9 @@ public class gameMechanics : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (Platformer2DUserControl.h > 0.0 && start) {
+		if (Platformer2DUserControl.h > 0.0 && !(GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints == RigidbodyConstraints2D.FreezeAll)) {
 			record = true;
-			start = false;
+			start = true;
 		}
 		if ((area.Equals("topLeft") || area.Equals("topRight")) && player.transform.position.y < -6)
 		{
@@ -93,7 +93,7 @@ public class gameMechanics : MonoBehaviour
 
 		}
 
-		if (record) {
+		if (record && start) {
 			currentSeconds += 1 * Time.deltaTime;
 			if(Mathf.RoundToInt(currentSeconds) == 60){
 				currentSeconds = 0;
@@ -178,10 +178,14 @@ public class gameMechanics : MonoBehaviour
 			if ((GUI.Button (new Rect (70, 10, 50, 50), "", retryButton)) || Input.GetKey (KeyCode.R)) {
 				Application.LoadLevel (Application.loadedLevel);
 			}
-			GUI.Label (new Rect (170, 25, 25, 25), "Level " + (Application.loadedLevel), afterTitle);
+			if(Application.loadedLevel > 1){
+				GUI.Label (new Rect (170, 25, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
+			}else{
+				GUI.Label (new Rect (180, 25, 25, 25), "Tutorial", afterTitle);
+			}
 			GUI.Label (new Rect (Screen.width / 2, 10, 50, 50), string.Format ("{0:00}:{1:00}", currentMinute, currentSeconds), time);
 		}else{
-			GUI.Box(new Rect(Screen.width /2 - 100,Screen.height /2 - 150,250,250), "" + Mathf.RoundToInt(score));
+			GUI.Box(new Rect(Screen.width /2 - 100,Screen.height /2 - 150,250,250), "Score: " + Mathf.RoundToInt(score));
 			if(GUI.Button(new Rect(Screen.width /2 - 100,Screen.height /2 - 100,250,50), "Main Menu")){
 				Application.LoadLevel(0);
 			}
