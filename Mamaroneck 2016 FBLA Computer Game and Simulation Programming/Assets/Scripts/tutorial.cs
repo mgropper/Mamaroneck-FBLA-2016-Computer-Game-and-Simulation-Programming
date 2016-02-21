@@ -7,6 +7,9 @@ public class tutorial : MonoBehaviour
 	public static bool intro = true;
 	public static bool pauseRetry = false;
 	public static bool pieceExplain = false;
+	public static bool ele = false;
+	public static bool sli = false;
+	public static bool eleSli = false;
 	public GUIStyle nextButton;
 	public Transform origin;
 	public GameObject player;
@@ -49,9 +52,16 @@ public class tutorial : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+
+		scoreMenu = false;
 		intro = true;
 		pauseRetry = false;
 		pieceExplain = false;
+		ele = false;
+		eleSli = false;
+		sli = false;
+		gameMechanics.scoreMenu = true;
+		scoreMenu = false;
 		player.GetComponent<SpriteRenderer> ().sprite = null;
 		middleG.SetActive (false);
 		topRightG.SetActive (false);
@@ -62,6 +72,7 @@ public class tutorial : MonoBehaviour
 		elevator.able = false;
 		PlatformerCharacter2D.ableFlip = false;
 		gameMechanics.record = false;
+		GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 		GameObject.Find ("Scripts").GetComponent<Menupause> ().enabled = false; 
 		currentSeconds = .0f;
 		currentMinute = .0f;
@@ -120,7 +131,7 @@ public class tutorial : MonoBehaviour
 	
 	void OnTriggerEnter2D ()
 	{
-		if (!hasObject && (player.transform.position.x < -10 || player.transform.position.x > 10)) {
+		if (!hasObject && (player.transform.position.x < -16.4 || player.transform.position.x > 16.4)) {
 			middleG.SetActive (true);
 			hasObject = true;
 			if (wearing.Equals ("orig")) {
@@ -147,20 +158,32 @@ public class tutorial : MonoBehaviour
 				origin.position = new Vector3 (5.3f, 3.1f);
 			} else if (wearing.Equals ("pants")) {
 				area = "bottomRight";
+				ele = true;
+				PlatformerCharacter2D.ableFlip = false;
+				record = false;
+				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 				origin.position = new Vector3 (5.3f, -0.9f);
 			} else if (wearing.Equals ("tie")) {
 				area = "topLeft";
+				sli = true;
+				PlatformerCharacter2D.ableFlip = false;
+				record = false;
+				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 				origin.position = new Vector3 (-2.7f, 3.1f);
 			} else if (wearing.Equals ("jacket")) {
 				area = "bottomLeft";
+				eleSli = true;
+				PlatformerCharacter2D.ableFlip = false;
+				record = false;
+				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 				origin.position = new Vector3 (-2.7f, -0.9f);
 			}
-		}else if (!hasObject && (player.transform.position.x > 15.0 && player.transform.position.x < 21.0)) {
+		} else if (!hasObject && (player.transform.position.x > 14.6 && player.transform.position.x < 16.3)) {
 			pieceExplain = true;
 			slider.able = false;
 			elevator.able = false;
 			PlatformerCharacter2D.ableFlip = false;
-			gameMechanics.record = false;
+			record = false;
 			GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 		}else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > -1) && !wearing.Equals ("shoes")) {
 			hasObject = false;
@@ -176,10 +199,12 @@ public class tutorial : MonoBehaviour
 				topLeftG.SetActive (false);
 				bottomLeftG.SetActive (true);
 			}
-		} else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > 1.1) && wearing.Equals ("shoes")) {
+		} else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > 0) && wearing.Equals ("shoes")) {
 			record = false;
+			slider.able = false;
+			elevator.able = false;
 			GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
-			score = 120000 / ((currentMinute * 60) + currentSeconds);
+			score = 45000 / ((currentMinute * 60) + currentSeconds);
 			scoreMenu = true;
 			PlatformerCharacter2D.ableFlip = false;
 		}
@@ -192,43 +217,39 @@ public class tutorial : MonoBehaviour
 		GUI.skin.box.fontSize = 25;
 		if (!intro) {
 			GUI.Label (new Rect (Screen.width / 2, 10, 50, 50), string.Format ("{0:00}:{1:00}", currentMinute, currentSeconds), time);
-			if (Menupause.pauseEnabled) {
+			if (Menupause.pauseEnabled || scoreMenu) {
 				GUI.Label (new Rect (50, 15, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
 			} else {
 				GUI.Label (new Rect (175, 25, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
 			}
 			if (!Menupause.pauseEnabled && !scoreMenu) {
-				if ((GUI.Button (new Rect (70, 10, 50, 50), "", retryButton)) || Input.GetKey (KeyCode.R)) {
+				if (((GUI.Button (new Rect (70, 10, 50, 50), "", retryButton)) || Input.GetKey (KeyCode.R)) && (!intro && !pauseRetry && !pieceExplain && !ele && !sli && !eleSli)) {
 					Application.LoadLevel (Application.loadedLevel);
 				}
 			}
 			if (scoreMenu) {
-				GUI.Label (new Rect (50, 15, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
-				GUI.Box (new Rect (450, Screen.height / 2 - 190, 400, 100), "Score: " + Mathf.RoundToInt (score));
-				if (GUI.Button (new Rect (575, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)) {
+				GUI.Box (new Rect (Screen.width/2 - 200, Screen.height / 2 - 190, 400, 100), "Score: " + Mathf.RoundToInt (score));
+				if (GUI.Button (new Rect (Screen.width/2 - 175, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)) {
 					Application.LoadLevel (0);
 				}
-				if (GUI.Button (new Rect (675, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
+				if (GUI.Button (new Rect (Screen.width/2 - 75, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
 					Application.LoadLevel (Application.loadedLevel);
 				}
-				if (GUI.Button (new Rect (775, Screen.height / 2 - 150, 50, 50), quitT, buttonStyle)) {
+				if (GUI.Button (new Rect (Screen.width/2 + 25, Screen.height / 2 - 150, 50, 50), quitT, buttonStyle)) {
 					Application.Quit ();
 				}
-				if (GUI.Button (new Rect (475, Screen.height / 2 - 150, 50, 50), nextLevelT, buttonStyle)) {
+				if (GUI.Button (new Rect (Screen.width/2 + 125, Screen.height / 2 - 150, 50, 50), nextLevelT, buttonStyle)) {
 					Application.LoadLevel (Application.loadedLevel + 1);
 				}
 			}
 		}
 		if (intro) {
-			GUI.Label (new Rect (Screen.width/2-100, 10, 200, 200), "This is Barney. He is a successful business man, but he suffers from\ndream anxiety disorder. Combining this with his fear of being late and\nof heights, he has a nightmare every night about losing his suit in the\nclouds over the city right before an important meeting. When Barney\nfinds all of the pieces to his suit, he wakes up from his nightmare.", introTextStyle);
+			GUI.Label (new Rect (Screen.width/2-100, 10, 200, 200), "This is Barney. He is a successful business man, but he suffers from\ndream anxiety disorder. Combined with his fear of being late and of\nheights, he has a nightmare every night about losing his clothes\nabove the city right before an important meeting. Help Barney\nfind his clothes and wake up from the nightmare.", introTextStyle);
 			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
 				intro = false;
 				GameObject.Find ("Scripts").GetComponent<Menupause> ().enabled = true; 
 				middleG.SetActive (true);
 				topRightG.SetActive (true);
-				topLeftG.SetActive (false);
-				bottomRightG.SetActive (false);
-				bottomLeftG.SetActive (false);
 				fake.SetActive(false);
 				player.SetActive(true);
 				player.GetComponent<SpriteRenderer> ().sprite = orig;
@@ -244,11 +265,11 @@ public class tutorial : MonoBehaviour
 			GUI.DrawTexture(new Rect(-5, 80, 75, 100), arrowB);
 			GUI.DrawTexture(new Rect(-5, 105, 75, 100), arrowB);
 			GUI.DrawTexture(new Rect(55, 80, 75, 100), arrowB);
-			GUI.Label (new Rect(205, 165, 75, 100), "This button pauses the game, use 'esc' as well.", pauseRetryTextStyle);
-			GUI.Label (new Rect(300, 135, 75, 100), "This button restarts the current level, use 'r' as well. ", pauseRetryTextStyle);
-			GUI.Label (new Rect(205, 100, 75, 100), "This is the current level.", pauseRetryTextStyle);
+			GUI.Label (new Rect(115, 150, 75, 100), "This button pauses the game, use 'esc' as well.", pauseRetryTextStyle);
+			GUI.Label (new Rect(200, 125, 75, 100), "This button restarts the current level, use 'r' as well. ", pauseRetryTextStyle);
+			GUI.Label (new Rect(205, 90, 75, 100), "This is the current level.", pauseRetryTextStyle);
 			GUI.Label (new Rect(Screen.width/2 + 100, 100, 75, 100), "This is the current time, your score for each level is derived from it.", pauseRetryTextStyle);
-			GUI.Label (new Rect(Screen.width - 350, Screen.height - 350, 75, 100), "Use A and D or the arrow keys to move left and right.\nUse space to jump.", pauseRetryTextStyle);
+			GUI.Label (new Rect(Screen.width - 225, Screen.height - 375, 75, 100), "Use A and D or the arrow keys to move left and right.\nUse space to jump.", pauseRetryTextStyle);
 			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
 				pauseRetry = false;
 				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
@@ -262,7 +283,7 @@ public class tutorial : MonoBehaviour
 			}
 		}
 		if (pieceExplain) {
-
+			GUI.Label(new Rect(Screen.width - 450, Screen.height/2 + 53, 75, 100), "This is a piece of Barney's suit.\nPick it up and go back to the beginning to unlock the next path to the next piece", pauseRetryTextStyle);
 			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
 				pieceExplain = false;
 				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
@@ -271,8 +292,46 @@ public class tutorial : MonoBehaviour
 				slider.able = true;
 				elevator.able = true;
 				PlatformerCharacter2D.ableFlip = true;
-				record = false;
-				scoreMenu = false;
+				record = true;
+			}
+		}
+		if(ele){
+			GUI.Label (new Rect(Screen.width - 400, 150, 100, 75), "This is an elevator cloud, it goes up and down", pauseRetryTextStyle);
+			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
+				ele = false;
+				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+				Menupause.pauseEnabled = false;
+				Menupause.back = false;
+				slider.able = true;
+				elevator.able = true;
+				PlatformerCharacter2D.ableFlip = true;
+				record = true;
+			}
+		}
+		if(sli){
+			GUI.Label (new Rect(250, 100, 100, 75), "This is a slider cloud, it goes left and right\nMake sure to stay with it.", pauseRetryTextStyle);
+			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
+				sli = false;
+				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+				Menupause.pauseEnabled = false;
+				Menupause.back = false;
+				slider.able = true;
+				elevator.able = true;
+				PlatformerCharacter2D.ableFlip = true;
+				record = true;
+			}
+		}
+		if(eleSli){
+			GUI.Label (new Rect(350, 150, 100, 75), "Sometimes, elevators and sliders can be next to each other", pauseRetryTextStyle);
+			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
+				eleSli = false;
+				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+				Menupause.pauseEnabled = false;
+				Menupause.back = false;
+				slider.able = true;
+				elevator.able = true;
+				PlatformerCharacter2D.ableFlip = true;
+				record = true;
 			}
 		}
 	}

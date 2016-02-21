@@ -25,7 +25,7 @@ public class Menupause : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if ((Input.GetKeyDown ("escape") || back) && !gameMechanics.scoreMenu && (!tutorial.intro && !tutorial.pauseRetry && !tutorial.pieceExplain)) {		
+		if ((Input.GetKeyDown ("escape") || back) && !gameMechanics.scoreMenu && (!tutorial.intro && !tutorial.pauseRetry && !tutorial.pieceExplain && !tutorial.ele && !tutorial.sli && !tutorial.eleSli)) {		
 			if (pauseEnabled == true) {
 				pauseEnabled = false;
 				back = false;
@@ -49,8 +49,8 @@ public class Menupause : MonoBehaviour
 
 	void OnGUI ()
 	{
-		if (!gameMechanics.scoreMenu && !pauseEnabled) {
-			if (GUI.Button (new Rect (10, 10, 50, 50), "", pauseButton) && (!tutorial.intro && !tutorial.pauseRetry && !tutorial.pieceExplain)) {
+		if ((!tutorial.scoreMenu && !gameMechanics.scoreMenu) || !pauseEnabled) {
+			if (GUI.Button (new Rect (10, 10, 50, 50), "", pauseButton) && (!tutorial.intro && !tutorial.pauseRetry && !tutorial.pieceExplain && !tutorial.ele && !tutorial.sli && !tutorial.eleSli)) {
 				pauseEnabled = true;
 				slider.able = false;
 				elevator.able = false;
@@ -64,12 +64,12 @@ public class Menupause : MonoBehaviour
 		GUI.skin.button.font = pauseMenuFont;
 		Cursor.visible = true;
 		if (pauseEnabled) {
-			GUI.Box (new Rect (400, Screen.height / 2 - 190, 500, 100), "Game Paused");
-			if (GUI.Button (new Rect (525, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)) {
+			GUI.Box (new Rect (Screen.width/2 - 250, Screen.height / 2 - 190, 500, 100), "Game Paused");
+			if (GUI.Button (new Rect (Screen.width/2 - 125, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)) {
 				pauseEnabled = false;
 				Application.LoadLevel (0);
 			}
-			if (GUI.Button (new Rect (625, Screen.height / 2 - 150, 50, 50), settingsT, buttonStyle)) {
+			if (GUI.Button (new Rect (Screen.width/2 - 25, Screen.height / 2 - 150, 50, 50), settingsT, buttonStyle)) {
 				if (showGraphicsDropDown == false) {
 					showGraphicsDropDown = true;
 				} else {
@@ -77,46 +77,46 @@ public class Menupause : MonoBehaviour
 				}
 			}
 			if (showGraphicsDropDown == true) {
-				GUI.Box (new Rect (525, Screen.height / 2 - 90, 250, 350), "Quality Settings");
-				if (GUI.Button (new Rect (525, Screen.height / 2 - 40, 250, 50), "Fastest")) {
+				GUI.Box (new Rect (Screen.width/2 - 125, Screen.height / 2 - 90, 250, 350), "Quality Settings");
+				if (GUI.Button (new Rect (Screen.width/2 - 125, Screen.height / 2 - 40, 250, 50), "Fastest")) {
 					QualitySettings.SetQualityLevel (0);
 					showGraphicsDropDown = false;
 					back = true;		
 				}
-				if (GUI.Button (new Rect (525, Screen.height / 2 + 10, 250, 50), "Fast")) {
+				if (GUI.Button (new Rect (Screen.width/2 - 125, Screen.height / 2 + 10, 250, 50), "Fast")) {
 					QualitySettings.SetQualityLevel (1);
 					showGraphicsDropDown = false;
 					back = true;	
 				}
-				if (GUI.Button (new Rect (525, Screen.height / 2 + 60, 250, 50), "Simple")) {
+				if (GUI.Button (new Rect (Screen.width/2 - 125, Screen.height / 2 + 60, 250, 50), "Simple")) {
 					QualitySettings.SetQualityLevel (2);
 					showGraphicsDropDown = false;
 					back = true;	
 				}
-				if (GUI.Button (new Rect (525, Screen.height / 2 + 110, 250, 50), "Good")) {
+				if (GUI.Button (new Rect (Screen.width/2 - 125, Screen.height / 2 + 110, 250, 50), "Good")) {
 					QualitySettings.SetQualityLevel (3);
 					showGraphicsDropDown = false;
 					back = true;	
 				}
-				if (GUI.Button (new Rect (525, Screen.height / 2 + 160, 250, 50), "Beautiful")) {
+				if (GUI.Button (new Rect (Screen.width/2 - 125, Screen.height / 2 + 160, 250, 50), "Beautiful")) {
 					QualitySettings.SetQualityLevel (4);
 					showGraphicsDropDown = false;
 					back = true;	
 				}
-				if (GUI.Button (new Rect (525, Screen.height / 2 + 210, 250, 50), "Fantastic")) {
+				if (GUI.Button (new Rect (Screen.width/2 - 125, Screen.height / 2 + 210, 250, 50), "Fantastic")) {
 					QualitySettings.SetQualityLevel (5);
 					showGraphicsDropDown = false;
 					back = true;	
 				}
 			}
-			if (GUI.Button (new Rect (725, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
+			if (GUI.Button (new Rect (Screen.width/2 + 75, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
 				pauseEnabled = false;
 				Application.LoadLevel (Application.loadedLevel);
 			}
-			if (GUI.Button (new Rect (825, Screen.height / 2 - 	150, 50, 50), quitT, buttonStyle)) {
+			if (GUI.Button (new Rect (Screen.width/2 + 175, Screen.height / 2 - 	150, 50, 50), quitT, buttonStyle)) {
 				Application.Quit ();
 			}
-			if (GUI.Button (new Rect (425, Screen.height / 2 - 	150, 50, 50), backT, buttonStyle)) {
+			if (GUI.Button (new Rect (Screen.width/2 - 225, Screen.height / 2 - 	150, 50, 50), backT, buttonStyle)) {
 				pauseEnabled = false;
 				back = false;
 				slider.able = true;

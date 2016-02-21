@@ -41,6 +41,12 @@ public class gameMechanics : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		tutorial.pieceExplain = false;
+		tutorial.scoreMenu = true;
+		scoreMenu = false;
+		tutorial.ele = false;
+		tutorial.sli = false;
+		tutorial.eleSli = false;
 		tutorial.intro = false;
 		tutorial.pauseRetry = false;
 		middleG.SetActive (true);
@@ -181,7 +187,7 @@ public class gameMechanics : MonoBehaviour
 		GUI.skin.button.font = scoreMenuF;
 		GUI.skin.box.fontSize = 25;
 		GUI.Label (new Rect (Screen.width / 2, 10, 50, 50), string.Format ("{0:00}:{1:00}", currentMinute, currentSeconds), time);
-		if(Menupause.pauseEnabled){
+		if(Menupause.pauseEnabled || scoreMenu){
 			GUI.Label (new Rect (50, 15, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
 		}else{
 			GUI.Label (new Rect (175, 25, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
@@ -192,18 +198,17 @@ public class gameMechanics : MonoBehaviour
 			}
 		}
 		if(scoreMenu){
-			GUI.Label (new Rect (50, 15, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
-			GUI.Box(new Rect(450, Screen.height / 2 - 190, 400, 100), "Score: " + Mathf.RoundToInt(score));
-			if(GUI.Button (new Rect (575, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)){
+			GUI.Box(new Rect(Screen.width/2 - 200, Screen.height / 2 - 190, 400, 100), "Score: " + Mathf.RoundToInt(score));
+			if(GUI.Button (new Rect (Screen.width/2 - 175, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)){
 				Application.LoadLevel(0);
 			}
-			if (GUI.Button (new Rect (675, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
+			if (GUI.Button (new Rect (Screen.width/2 - 75, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
 				Application.LoadLevel (Application.loadedLevel);
 			}
-			if (GUI.Button (new Rect (775, Screen.height / 2 - 	150, 50, 50), quitT, buttonStyle)) {
+			if (GUI.Button (new Rect (Screen.width/2 + 25, Screen.height / 2 - 	150, 50, 50), quitT, buttonStyle)) {
 				Application.Quit ();
 			}
-			if (GUI.Button (new Rect (475, Screen.height / 2 - 	150, 50, 50), nextLevelT, buttonStyle)) {
+			if (GUI.Button (new Rect (Screen.width/2 + 125, Screen.height / 2 - 	150, 50, 50), nextLevelT, buttonStyle)) {
 				Application.LoadLevel (Application.loadedLevel + 1);
 			}
 		}
