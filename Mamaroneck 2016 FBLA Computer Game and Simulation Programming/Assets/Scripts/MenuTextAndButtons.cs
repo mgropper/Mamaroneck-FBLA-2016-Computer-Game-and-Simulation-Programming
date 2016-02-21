@@ -17,26 +17,26 @@ public class MenuTextAndButtons : MonoBehaviour {
 	void OnGUI () {
 		GUI.Label(new Rect(0, 0, Screen.width, 250), "Nightmares:\nThe Mamaroneck FBLA\n2016 Computer Game and Simulation Programming Submission", textStyle); //create text at top with game name
         if (guiMenuEnabled) {
-			if (GUI.Button (new Rect (Screen.width / 2 - 250, Screen.height/2 - 50, 200, 125), buttonPlayTexture, rectStyle)) { //create button to play game
+			if (GUI.Button (new Rect (Screen.width / 2 - 250, Screen.height/2 - 25, 200, 125), buttonPlayTexture, rectStyle)) { //create button to play game
 				guiMenuEnabled = false;
 			}
-			if (GUI.Button (new Rect (Screen.width / 2 + 50, Screen.height/2 - 50, 200, 125), buttonQuitTexture, rectStyle)) { //create button to quit game
+			if (GUI.Button (new Rect (Screen.width / 2 + 50, Screen.height/2 - 25, 200, 125), buttonQuitTexture, rectStyle)) { //create button to quit game
 				Application.Quit ();
 			}
 		} else {
-			if (GUI.Button(new Rect(175, Screen.height / 2 - 100, 175, 125), "Tutorial", buttonStyle))
+			if (GUI.Button(new Rect(175, Screen.height / 2 - 75, 175, 125), "Level 0", buttonStyle))
 			{ //create button to load level one
-				Application.LoadLevel("tutorial");
+				Application.LoadLevel("Level0");
 			}
-			if (GUI.Button(new Rect(425, Screen.height / 2 - 100, 175, 125), "Level 1", buttonStyle))
+			if (GUI.Button(new Rect(425, Screen.height / 2 - 75, 175, 125), "Level 1", buttonStyle))
             { //create button to load level one
                 Application.LoadLevel("level1");
             }
-			if (GUI.Button(new Rect(675, Screen.height / 2 - 100, 175, 125), "Level 2", buttonStyle))
+			if (GUI.Button(new Rect(675, Screen.height / 2 - 75, 175, 125), "Level 2", buttonStyle))
             { //create button to load level 2
                 Application.LoadLevel("level2");
             }
-			if (GUI.Button(new Rect(925, Screen.height / 2 - 100, 175, 125), "Level 3", buttonStyle))
+			if (GUI.Button(new Rect(925, Screen.height / 2 - 75, 175, 125), "Level 3", buttonStyle))
             { //create button to load level 3
                 Application.LoadLevel("level3");
             }

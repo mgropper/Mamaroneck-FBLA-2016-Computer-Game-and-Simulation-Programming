@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6056977644335ce42a86e34eb0711f27
-timeCreated: 1452791018
+timeCreated: 1456005399
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
@@ -12,12 +12,20 @@ MonoImporter:
   - bottomLeftG: {instanceID: 0}
   - bottomRightG: {instanceID: 0}
   - middleG: {instanceID: 0}
-  - pieceG: {instanceID: 0}
+  - pantsP: {instanceID: 0}
+  - tieP: {instanceID: 0}
+  - jacketP: {instanceID: 0}
+  - shoesP: {instanceID: 0}
   - orig: {fileID: 21300014, guid: 9224098fb627fe849b1adb63c8c991c6, type: 3}
   - pants: {fileID: 21300046, guid: 9224098fb627fe849b1adb63c8c991c6, type: 3}
   - tie: {fileID: 21300062, guid: 9224098fb627fe849b1adb63c8c991c6, type: 3}
   - jacket: {fileID: 21300078, guid: 9224098fb627fe849b1adb63c8c991c6, type: 3}
   - shoes: {fileID: 21300030, guid: 9224098fb627fe849b1adb63c8c991c6, type: 3}
+  - scoreMenuF: {fileID: 12800000, guid: 208aa14e606eecf40a4f7f28abf3ea38, type: 3}
+  - nextLevelT: {fileID: 2800000, guid: 39f1f08d1c8393841aca09fc8b0d3abb, type: 3}
+  - mainMenuT: {fileID: 2800000, guid: 1e4b8e6fd1bd5404ba17585f62e571c3, type: 3}
+  - restartT: {fileID: 2800000, guid: feff2c38632b01640b8c4291403a8cde, type: 3}
+  - quitT: {fileID: 2800000, guid: 055d5058ff6230d4d88e3044a207f815, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

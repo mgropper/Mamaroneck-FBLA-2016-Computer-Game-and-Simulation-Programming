@@ -6,7 +6,7 @@ public class Menupause : MonoBehaviour
 	public Font pauseMenuFont;
 	public static bool pauseEnabled = false;
 	private bool showGraphicsDropDown = false;
-	private bool back = false;
+	public static bool back = false;
 	public GUIStyle pauseButton;
 	public Texture backT;
 	public Texture mainMenuT;
@@ -19,20 +19,13 @@ public class Menupause : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		pauseEnabled = false;
-		back = false;
-		slider.able = true;
-		elevator.able = true;
-		PlatformerCharacter2D.ableFlip = true;
-		gameMechanics.record = false;
-		gameMechanics.scoreMenu = false;
-		GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if ((Input.GetKeyDown ("escape") || back) && !gameMechanics.scoreMenu) {		
+		if ((Input.GetKeyDown ("escape") || back) && !gameMechanics.scoreMenu && (!tutorial.intro && !tutorial.pauseRetry && !tutorial.pieceExplain)) {		
 			if (pauseEnabled == true) {
 				pauseEnabled = false;
 				back = false;
@@ -40,6 +33,7 @@ public class Menupause : MonoBehaviour
 				elevator.able = true;
 				PlatformerCharacter2D.ableFlip = true;
 				gameMechanics.record = true;
+				tutorial.record = true;
 				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
 			} else if (pauseEnabled == false) {
 				pauseEnabled = true;
@@ -47,6 +41,7 @@ public class Menupause : MonoBehaviour
 				elevator.able = false;
 				PlatformerCharacter2D.ableFlip = false;
 				gameMechanics.record = false;
+				tutorial.record = false;
 				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 			}
 		}
@@ -54,12 +49,13 @@ public class Menupause : MonoBehaviour
 
 	void OnGUI ()
 	{
-		if (!gameMechanics.scoreMenu) {
-			if (GUI.Button (new Rect (10, 10, 50, 50), "", pauseButton)) {
+		if (!gameMechanics.scoreMenu && !pauseEnabled) {
+			if (GUI.Button (new Rect (10, 10, 50, 50), "", pauseButton) && (!tutorial.intro && !tutorial.pauseRetry && !tutorial.pieceExplain)) {
 				pauseEnabled = true;
 				slider.able = false;
 				elevator.able = false;
 				gameMechanics.record = false;
+				tutorial.record = false;
 				PlatformerCharacter2D.ableFlip = false;
 				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 			}
@@ -67,9 +63,10 @@ public class Menupause : MonoBehaviour
 		GUI.skin.box.font = pauseMenuFont;
 		GUI.skin.button.font = pauseMenuFont;
 		Cursor.visible = true;
-		if (pauseEnabled == true) {
+		if (pauseEnabled) {
 			GUI.Box (new Rect (400, Screen.height / 2 - 190, 500, 100), "Game Paused");
 			if (GUI.Button (new Rect (525, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)) {
+				pauseEnabled = false;
 				Application.LoadLevel (0);
 			}
 			if (GUI.Button (new Rect (625, Screen.height / 2 - 150, 50, 50), settingsT, buttonStyle)) {
@@ -113,6 +110,7 @@ public class Menupause : MonoBehaviour
 				}
 			}
 			if (GUI.Button (new Rect (725, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
+				pauseEnabled = false;
 				Application.LoadLevel (Application.loadedLevel);
 			}
 			if (GUI.Button (new Rect (825, Screen.height / 2 - 	150, 50, 50), quitT, buttonStyle)) {
@@ -124,6 +122,7 @@ public class Menupause : MonoBehaviour
 				slider.able = true;
 				elevator.able = true;	
 				gameMechanics.record = true;
+				tutorial.record = true;
 				PlatformerCharacter2D.ableFlip = true;
 				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
 			}

@@ -1,30 +1,279 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class tutorial : MonoBehaviour {
-	private bool pauseRety = true;
+public class tutorial : MonoBehaviour
+{
+	public GameObject fake;
+	public static bool intro = true;
+	public static bool pauseRetry = false;
+	public static bool pieceExplain = false;
 	public GUIStyle nextButton;
-
-
-    // Use this for initialization
-    void Start () {
+	public Transform origin;
+	public GameObject player;
+	public bool hasObject = false;
+	public GameObject topLeftG;
+	public GameObject topRightG;
+	public GameObject bottomLeftG;
+	public GameObject bottomRightG;
+	public GameObject middleG;
+	public GameObject pantsP;
+	public GameObject tieP;
+	public GameObject jacketP;
+	public GameObject shoesP;
+	public Sprite orig;
+	public Sprite pants;
+	public Sprite tie;
+	public Sprite jacket;
+	public Sprite shoes;
+	private string area = "middle";
+	private string wearing = "orig";
+	public GUIStyle afterTitle;
+	public Font scoreMenuF;
+	public GUIStyle time;
+	public static bool record = false;
+	private float currentSeconds = .0f;
+	private float currentMinute = .0f;
+	public GUIStyle retryButton;
+	public static bool start = false;
+	public float score = 0;
+	public static bool scoreMenu = false;
+	public Texture nextLevelT;
+	public Texture mainMenuT;
+	public Texture restartT;
+	public Texture quitT;
+	public GUIStyle buttonStyle;
+	public GUIStyle introTextStyle;
+	public GUIStyle pauseRetryTextStyle;
+	public Texture arrow;
+	public Texture arrowB;
+	// Use this for initialization
+	void Start ()
+	{
+		intro = true;
+		pauseRetry = false;
+		pieceExplain = false;
+		player.GetComponent<SpriteRenderer> ().sprite = null;
+		middleG.SetActive (false);
+		topRightG.SetActive (false);
+		topLeftG.SetActive (false);
+		bottomRightG.SetActive (false);
+		bottomLeftG.SetActive (false);
 		slider.able = false;
 		elevator.able = false;
 		PlatformerCharacter2D.ableFlip = false;
 		gameMechanics.record = false;
-		GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
-    }
-	
-	// Update is called once per frame
-	void Update () {
-	    
+		GameObject.Find ("Scripts").GetComponent<Menupause> ().enabled = false; 
+		currentSeconds = .0f;
+		currentMinute = .0f;
+		record = false;
+		player.transform.position = new Vector3 (1.3f, 1.1f, 0f);
 	}
-
-    void OnGUI() {
-        if (pauseRety) {
-			if(GUI.Button(new Rect(Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)){
-				pauseRety = false;
+	// Update is called once per frame
+	void Update ()
+	{
+		if (!intro) {
+			if (Platformer2DUserControl.h > 0.0 && !(GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints == RigidbodyConstraints2D.FreezeAll)) {
+				record = true;
+				start = true;
+			}
+			if ((area.Equals ("topLeft") || area.Equals ("topRight")) && player.transform.position.y < -6) {
+				player.transform.position = origin.transform.position;
+				hasObject = (false);
+				if (area.Equals ("topLeft")) {
+					player.GetComponent<SpriteRenderer> ().sprite = tie;
+					wearing = "tie";
+					jacketP.SetActive (true);
+					middleG.SetActive (false);
+				} else if (area.Equals ("topRight")) {
+					player.GetComponent<SpriteRenderer> ().sprite = orig;
+					wearing = "orig";
+					pantsP.SetActive (true);
+					middleG.SetActive (false);
+				}
+			
+			} else if ((area.Equals ("bottomLeft") || area.Equals ("bottomRight") || area.Equals ("middle")) && player.transform.position.y < -10) {
+				player.transform.position = origin.position;
+				hasObject = (false);
+				if (area.Equals ("bottomLeft")) {
+					player.GetComponent<SpriteRenderer> ().sprite = jacket;
+					wearing = "jacket";
+					shoesP.SetActive (true);
+					middleG.SetActive (false);
+				} else if (area.Equals ("bottomRight")) {
+					player.GetComponent<SpriteRenderer> ().sprite = pants;
+					wearing = "pants";
+					tieP.SetActive (true);
+					middleG.SetActive (false);
+				}
+			
+			}
+		
+			if (record && start) {
+				currentSeconds += 1 * Time.deltaTime;
+				if (Mathf.RoundToInt (currentSeconds) == 60) {
+					currentSeconds = 0;
+					currentMinute++;
+				}
 			}
 		}
-    }
+	}
+	
+	void OnTriggerEnter2D ()
+	{
+		if (!hasObject && (player.transform.position.x < -10 || player.transform.position.x > 10)) {
+			middleG.SetActive (true);
+			hasObject = true;
+			if (wearing.Equals ("orig")) {
+				pantsP.SetActive (false);
+				player.GetComponent<SpriteRenderer> ().sprite = pants;
+				wearing = "pants";
+			} else if (wearing.Equals ("pants")) {
+				player.GetComponent<SpriteRenderer> ().sprite = tie;
+				wearing = "tie";
+				tieP.SetActive (false);
+			} else if (wearing.Equals ("tie")) {
+				player.GetComponent<SpriteRenderer> ().sprite = jacket;
+				wearing = "jacket";
+				jacketP.SetActive (false);
+			} else if (wearing.Equals ("jacket")) {
+				player.GetComponent<SpriteRenderer> ().sprite = shoes;
+				wearing = "shoes";
+				shoesP.SetActive (false);
+			}
+		} else if (!hasObject && ((player.transform.position.x > 3.2 && player.transform.position.x < 8.0) || (player.transform.position.x < -1.1 && player.transform.position.x > -8))) {
+			middleG.SetActive (false);
+			if (wearing.Equals ("orig")) {
+				area = "topRight";
+				origin.position = new Vector3 (5.3f, 3.1f);
+			} else if (wearing.Equals ("pants")) {
+				area = "bottomRight";
+				origin.position = new Vector3 (5.3f, -0.9f);
+			} else if (wearing.Equals ("tie")) {
+				area = "topLeft";
+				origin.position = new Vector3 (-2.7f, 3.1f);
+			} else if (wearing.Equals ("jacket")) {
+				area = "bottomLeft";
+				origin.position = new Vector3 (-2.7f, -0.9f);
+			}
+		}else if (!hasObject && (player.transform.position.x > 15.0 && player.transform.position.x < 21.0)) {
+			pieceExplain = true;
+			slider.able = false;
+			elevator.able = false;
+			PlatformerCharacter2D.ableFlip = false;
+			gameMechanics.record = false;
+			GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
+		}else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > -1) && !wearing.Equals ("shoes")) {
+			hasObject = false;
+			area = "middle";
+			origin.position = new Vector3 (1.3f, 1.1f);
+			if (wearing.Equals ("pants")) {
+				topRightG.SetActive (false);
+				bottomRightG.SetActive (true);
+			} else if (wearing.Equals ("tie")) {
+				bottomRightG.SetActive (false);
+				topLeftG.SetActive (true);
+			} else if (wearing.Equals ("jacket")) {
+				topLeftG.SetActive (false);
+				bottomLeftG.SetActive (true);
+			}
+		} else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > 1.1) && wearing.Equals ("shoes")) {
+			record = false;
+			GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
+			score = 120000 / ((currentMinute * 60) + currentSeconds);
+			scoreMenu = true;
+			PlatformerCharacter2D.ableFlip = false;
+		}
+	}
+	
+	void OnGUI ()
+	{
+		GUI.skin.box.font = scoreMenuF;
+		GUI.skin.button.font = scoreMenuF;
+		GUI.skin.box.fontSize = 25;
+		if (!intro) {
+			GUI.Label (new Rect (Screen.width / 2, 10, 50, 50), string.Format ("{0:00}:{1:00}", currentMinute, currentSeconds), time);
+			if (Menupause.pauseEnabled) {
+				GUI.Label (new Rect (50, 15, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
+			} else {
+				GUI.Label (new Rect (175, 25, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
+			}
+			if (!Menupause.pauseEnabled && !scoreMenu) {
+				if ((GUI.Button (new Rect (70, 10, 50, 50), "", retryButton)) || Input.GetKey (KeyCode.R)) {
+					Application.LoadLevel (Application.loadedLevel);
+				}
+			}
+			if (scoreMenu) {
+				GUI.Label (new Rect (50, 15, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
+				GUI.Box (new Rect (450, Screen.height / 2 - 190, 400, 100), "Score: " + Mathf.RoundToInt (score));
+				if (GUI.Button (new Rect (575, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)) {
+					Application.LoadLevel (0);
+				}
+				if (GUI.Button (new Rect (675, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
+					Application.LoadLevel (Application.loadedLevel);
+				}
+				if (GUI.Button (new Rect (775, Screen.height / 2 - 150, 50, 50), quitT, buttonStyle)) {
+					Application.Quit ();
+				}
+				if (GUI.Button (new Rect (475, Screen.height / 2 - 150, 50, 50), nextLevelT, buttonStyle)) {
+					Application.LoadLevel (Application.loadedLevel + 1);
+				}
+			}
+		}
+		if (intro) {
+			GUI.Label (new Rect (Screen.width/2-100, 10, 200, 200), "This is Barney. He is a successful business man, but he suffers from\ndream anxiety disorder. Combining this with his fear of being late and\nof heights, he has a nightmare every night about losing his suit in the\nclouds over the city right before an important meeting. When Barney\nfinds all of the pieces to his suit, he wakes up from his nightmare.", introTextStyle);
+			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
+				intro = false;
+				GameObject.Find ("Scripts").GetComponent<Menupause> ().enabled = true; 
+				middleG.SetActive (true);
+				topRightG.SetActive (true);
+				topLeftG.SetActive (false);
+				bottomRightG.SetActive (false);
+				bottomLeftG.SetActive (false);
+				fake.SetActive(false);
+				player.SetActive(true);
+				player.GetComponent<SpriteRenderer> ().sprite = orig;
+				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
+				pauseRetry = true;
+			}
+		}
+		if (pauseRetry) {
+			GUI.DrawTexture(new Rect(-5, 55, 75, 100), arrow);
+			GUI.DrawTexture(new Rect(55, 55, 75, 100), arrow);
+			GUI.DrawTexture(new Rect(145, 45, 75, 100), arrow);
+			GUI.DrawTexture(new Rect(Screen.width/2 - 37, 45, 75, 100), arrow);
+			GUI.DrawTexture(new Rect(-5, 80, 75, 100), arrowB);
+			GUI.DrawTexture(new Rect(-5, 105, 75, 100), arrowB);
+			GUI.DrawTexture(new Rect(55, 80, 75, 100), arrowB);
+			GUI.Label (new Rect(205, 165, 75, 100), "This button pauses the game, use 'esc' as well.", pauseRetryTextStyle);
+			GUI.Label (new Rect(300, 135, 75, 100), "This button restarts the current level, use 'r' as well. ", pauseRetryTextStyle);
+			GUI.Label (new Rect(205, 100, 75, 100), "This is the current level.", pauseRetryTextStyle);
+			GUI.Label (new Rect(Screen.width/2 + 100, 100, 75, 100), "This is the current time, your score for each level is derived from it.", pauseRetryTextStyle);
+			GUI.Label (new Rect(Screen.width - 350, Screen.height - 350, 75, 100), "Use A and D or the arrow keys to move left and right.\nUse space to jump.", pauseRetryTextStyle);
+			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
+				pauseRetry = false;
+				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+				Menupause.pauseEnabled = false;
+				Menupause.back = false;
+				slider.able = true;
+				elevator.able = true;
+				PlatformerCharacter2D.ableFlip = true;
+				record = false;
+				scoreMenu = false;
+			}
+		}
+		if (pieceExplain) {
+
+			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
+				pieceExplain = false;
+				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+				Menupause.pauseEnabled = false;
+				Menupause.back = false;
+				slider.able = true;
+				elevator.able = true;
+				PlatformerCharacter2D.ableFlip = true;
+				record = false;
+				scoreMenu = false;
+			}
+		}
+	}
 }

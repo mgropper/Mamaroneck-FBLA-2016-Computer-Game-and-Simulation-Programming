@@ -22,27 +22,40 @@ public class gameMechanics : MonoBehaviour
 	public Sprite shoes;
 	private string area = "middle";
 	private string wearing = "orig";
-	public GUIStyle title;
 	public GUIStyle afterTitle;
 	public Font scoreMenuF;
 	public GUIStyle time;
 	public static bool record = false;
 	private float currentSeconds = .0f;
 	private float currentMinute = .0f;
-	private float currentHour = .0f;
 	public GUIStyle retryButton;
 	public static bool start = false;
 	public float score = 0;
 	public static bool scoreMenu = false;
+	public Texture nextLevelT;
+	public Texture mainMenuT;
+	public Texture restartT;
+	public Texture quitT;
+	public GUIStyle buttonStyle;
 
 	// Use this for initialization
 	void Start()
 	{
+		tutorial.intro = false;
+		tutorial.pauseRetry = false;
 		middleG.SetActive (true);
 		topRightG.SetActive (true);
 		topLeftG.SetActive (false);
 		bottomRightG.SetActive (false);
 		bottomLeftG.SetActive (false);
+		Menupause.pauseEnabled = false;
+		Menupause.back = false;
+		slider.able = true;
+		elevator.able = true;
+		PlatformerCharacter2D.ableFlip = true;
+		record = false;
+		scoreMenu = false;
+		GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
 	}
 	
 	// Update is called once per frame
@@ -98,9 +111,6 @@ public class gameMechanics : MonoBehaviour
 			if(Mathf.RoundToInt(currentSeconds) == 60){
 				currentSeconds = 0;
 				currentMinute++;
-			}else if(currentMinute == 60f){
-				currentMinute = 0;
-				currentHour++;
 			}
 		}
 
@@ -130,43 +140,39 @@ public class gameMechanics : MonoBehaviour
 			}
 		} else if (!hasObject && ((player.transform.position.x > 3.2 && player.transform.position.x < 10) || (player.transform.position.x < -1.1 && player.transform.position.x > -10))) {
 			middleG.SetActive (false);
-			if(wearing.Equals("orig")){
+			if (wearing.Equals ("orig")) {
 				area = "topRight";
-				origin.position = new Vector3(5.3f, 3.1f);
-			}else if(wearing.Equals("pants")){
+				origin.position = new Vector3 (5.3f, 3.1f);
+			} else if (wearing.Equals ("pants")) {
 				area = "bottomRight";
-				origin.position = new Vector3(5.3f, -0.9f);
-			}else if(wearing.Equals("tie")){
+				origin.position = new Vector3 (5.3f, -0.9f);
+			} else if (wearing.Equals ("tie")) {
 				area = "topLeft";
-				origin.position = new Vector3(-2.7f, 3.1f);
-			}else if(wearing.Equals("jacket")){
+				origin.position = new Vector3 (-2.7f, 3.1f);
+			} else if (wearing.Equals ("jacket")) {
 				area = "bottomLeft";
-				origin.position = new Vector3(-2.7f, -0.9f);
+				origin.position = new Vector3 (-2.7f, -0.9f);
 			}
-		} else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > -1)) {
+		} else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > -1) && !wearing.Equals ("shoes")) {
 			hasObject = false;
 			area = "middle";
-			origin.position = new Vector3(1.3f, 1.1f);
-			if(wearing.Equals("pants")){
-				topRightG.SetActive(false);
-				bottomRightG.SetActive(true);
-			}else if(wearing.Equals("tie")){
-				bottomRightG.SetActive(false);
-				topLeftG.SetActive(true);
-			}else if(wearing.Equals("jacket")){
-				topLeftG.SetActive(false);
-				bottomLeftG.SetActive(true);
-			}else if(wearing.Equals("shoes")){
-				record = false;
-				GameObject.Find("character").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-				if(currentSeconds > 10){
-					score = 1000 - (currentMinute * 100) - currentSeconds;
-				}else{
-					score = 1000 - (currentMinute * 100) - (currentSeconds*10);
-				}
-				scoreMenu = true;
-
+			origin.position = new Vector3 (1.3f, 1.1f);
+			if (wearing.Equals ("pants")) {
+				topRightG.SetActive (false);
+				bottomRightG.SetActive (true);
+			} else if (wearing.Equals ("tie")) {
+				bottomRightG.SetActive (false);
+				topLeftG.SetActive (true);
+			} else if (wearing.Equals ("jacket")) {
+				topLeftG.SetActive (false);
+				bottomLeftG.SetActive (true);
 			}
+		} else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > .5) && wearing.Equals ("shoes")) {
+			record = false;
+			GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
+			score =  120000 / ((currentMinute * 60) + currentSeconds);
+			scoreMenu = true;
+			PlatformerCharacter2D.ableFlip = false;
 		}
 	}
 
@@ -174,29 +180,31 @@ public class gameMechanics : MonoBehaviour
 		GUI.skin.box.font = scoreMenuF;
 		GUI.skin.button.font = scoreMenuF;
 		GUI.skin.box.fontSize = 25;
-		if (!scoreMenu) {
+		GUI.Label (new Rect (Screen.width / 2, 10, 50, 50), string.Format ("{0:00}:{1:00}", currentMinute, currentSeconds), time);
+		if(Menupause.pauseEnabled){
+			GUI.Label (new Rect (50, 15, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
+		}else{
+			GUI.Label (new Rect (175, 25, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
+		}
+		if (!Menupause.pauseEnabled && !scoreMenu) {
 			if ((GUI.Button (new Rect (70, 10, 50, 50), "", retryButton)) || Input.GetKey (KeyCode.R)) {
 				Application.LoadLevel (Application.loadedLevel);
 			}
-			if(Application.loadedLevel > 1){
-				GUI.Label (new Rect (170, 25, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
-			}else{
-				GUI.Label (new Rect (180, 25, 25, 25), "Tutorial", afterTitle);
-			}
-			GUI.Label (new Rect (Screen.width / 2, 10, 50, 50), string.Format ("{0:00}:{1:00}", currentMinute, currentSeconds), time);
-		}else{
-			GUI.Box(new Rect(Screen.width /2 - 100,Screen.height /2 - 150,250,250), "Score: " + Mathf.RoundToInt(score));
-			if(GUI.Button(new Rect(Screen.width /2 - 100,Screen.height /2 - 100,250,50), "Main Menu")){
+		}
+		if(scoreMenu){
+			GUI.Label (new Rect (50, 15, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
+			GUI.Box(new Rect(450, Screen.height / 2 - 190, 400, 100), "Score: " + Mathf.RoundToInt(score));
+			if(GUI.Button (new Rect (575, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)){
 				Application.LoadLevel(0);
 			}
-			if(GUI.Button(new Rect(Screen.width /2 - 100,Screen.height /2 - 50,250,50), "Next Level")){
-				Application.LoadLevel(Application.loadedLevel + 1);
+			if (GUI.Button (new Rect (675, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
+				Application.LoadLevel (Application.loadedLevel);
 			}
-			if(GUI.Button (new Rect (Screen.width /2 - 100,Screen.height /2,250,50), "Restart Level")){
-				Application.LoadLevel(Application.loadedLevel);
+			if (GUI.Button (new Rect (775, Screen.height / 2 - 	150, 50, 50), quitT, buttonStyle)) {
+				Application.Quit ();
 			}
-			if (GUI.Button (new Rect (Screen.width /2 - 100,Screen.height /2 + 50,250,50), "Quit Game")){
-				Application.Quit();
+			if (GUI.Button (new Rect (475, Screen.height / 2 - 	150, 50, 50), nextLevelT, buttonStyle)) {
+				Application.LoadLevel (Application.loadedLevel + 1);
 			}
 		}
 	}
