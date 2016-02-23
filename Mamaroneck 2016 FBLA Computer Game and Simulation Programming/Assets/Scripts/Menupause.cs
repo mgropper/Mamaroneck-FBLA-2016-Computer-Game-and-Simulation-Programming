@@ -25,7 +25,7 @@ public class Menupause : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if ((Input.GetKeyDown ("escape") || back) && !gameMechanics.scoreMenu && (!tutorial.intro && !tutorial.pauseRetry && !tutorial.pieceExplain && !tutorial.ele && !tutorial.sli && !tutorial.eleSli)) {		
+		if ((Input.GetKeyDown ("escape") || back) && (!gameMechanics.scoreMenu || !tutorial.scoreMenu) && (!tutorial.intro && !tutorial.pauseRetry && !tutorial.pieceExplain && !tutorial.ele && !tutorial.sli && !tutorial.eleSli)) {		
 			if (pauseEnabled == true) {
 				pauseEnabled = false;
 				back = false;
@@ -49,7 +49,7 @@ public class Menupause : MonoBehaviour
 
 	void OnGUI ()
 	{
-		if ((!tutorial.scoreMenu && !gameMechanics.scoreMenu) || !pauseEnabled) {
+		if ((!tutorial.scoreMenu || !gameMechanics.scoreMenu) && !pauseEnabled) {
 			if (GUI.Button (new Rect (10, 10, 50, 50), "", pauseButton) && (!tutorial.intro && !tutorial.pauseRetry && !tutorial.pieceExplain && !tutorial.ele && !tutorial.sli && !tutorial.eleSli)) {
 				pauseEnabled = true;
 				slider.able = false;

@@ -244,7 +244,7 @@ public class tutorial : MonoBehaviour
 			}
 		}
 		if (intro) {
-			GUI.Label (new Rect (Screen.width/2-100, 10, 200, 200), "This is Barney. He is a successful business man, but he suffers from\ndream anxiety disorder. Combined with his fear of being late and of\nheights, he has a nightmare every night about losing his clothes\nabove the city right before an important meeting. Help Barney\nfind his clothes and wake up from the nightmare.", introTextStyle);
+			GUI.Label (new Rect (Screen.width/2-100, 10, 200, 200), "This is Barney. He is a successful businessman, but he suffers from\ndream anxiety disorder. Combined with his fear of being late and of\nheights, he has nightmares every night in which he loses his clothes\nin the sky right before an important meeting.\n\nCan you help Barney find his clothes so he can wake up from his nightmare?", introTextStyle);
 			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
 				intro = false;
 				GameObject.Find ("Scripts").GetComponent<Menupause> ().enabled = true; 
@@ -268,7 +268,7 @@ public class tutorial : MonoBehaviour
 			GUI.Label (new Rect(115, 150, 75, 100), "This button pauses the game, use 'esc' as well.", pauseRetryTextStyle);
 			GUI.Label (new Rect(200, 125, 75, 100), "This button restarts the current level, use 'r' as well. ", pauseRetryTextStyle);
 			GUI.Label (new Rect(205, 90, 75, 100), "This is the current level.", pauseRetryTextStyle);
-			GUI.Label (new Rect(Screen.width/2 + 100, 100, 75, 100), "This is the current time, your score for each level is derived from it.", pauseRetryTextStyle);
+			GUI.Label (new Rect(Screen.width/2 + 100, 100, 75, 100), "This is the current time, be careful of it.", pauseRetryTextStyle);
 			GUI.Label (new Rect(Screen.width - 225, Screen.height - 375, 75, 100), "Use A and D or the arrow keys to move left and right.\nUse space to jump.", pauseRetryTextStyle);
 			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
 				pauseRetry = false;
@@ -296,7 +296,7 @@ public class tutorial : MonoBehaviour
 			}
 		}
 		if(ele){
-			GUI.Label (new Rect(Screen.width - 400, 150, 100, 75), "This is an elevator cloud, it goes up and down", pauseRetryTextStyle);
+			GUI.Label (new Rect(Screen.width - 400, 150, 100, 75), "There is an elevator cloud, it goes up and down", pauseRetryTextStyle);
 			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
 				ele = false;
 				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
@@ -309,7 +309,7 @@ public class tutorial : MonoBehaviour
 			}
 		}
 		if(sli){
-			GUI.Label (new Rect(250, 100, 100, 75), "This is a slider cloud, it goes left and right\nMake sure to stay with it.", pauseRetryTextStyle);
+			GUI.Label (new Rect(250, 100, 100, 75), "There is a slider cloud, it goes left and right\nMake sure to stay with it.", pauseRetryTextStyle);
 			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
 				sli = false;
 				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
@@ -322,7 +322,7 @@ public class tutorial : MonoBehaviour
 			}
 		}
 		if(eleSli){
-			GUI.Label (new Rect(350, 150, 100, 75), "Sometimes, elevators and sliders can be next to each other", pauseRetryTextStyle);
+			GUI.Label (new Rect(350, 150, 100, 75), "Elevators and sliders can be next to each other", pauseRetryTextStyle);
 			if (GUI.Button (new Rect (Screen.width - 150, Screen.height - 100, 125, 75), "Next", nextButton)) {
 				eleSli = false;
 				GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;

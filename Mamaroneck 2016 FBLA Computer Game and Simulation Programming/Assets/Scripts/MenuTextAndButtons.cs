@@ -24,19 +24,19 @@ public class MenuTextAndButtons : MonoBehaviour {
 				Application.Quit ();
 			}
 		} else {
-			if (GUI.Button(new Rect(50, Screen.height / 2 - 75, 150, 125), "Level 0", buttonStyle))
+			if (GUI.Button(new Rect(Screen.width * (1.0f / 5.0f) - 75, Screen.height / 2 - 75, 150, 125), "Level 0", buttonStyle))
 			{ //create button to load level one
 				Application.LoadLevel("Level0");
 			}
-			if (GUI.Button(new Rect(225, Screen.height / 2 - 75, 150, 125), "Level 1", buttonStyle))
+			if (GUI.Button(new Rect(Screen.width * (2.0f / 5.0f) - 75, Screen.height / 2 - 75, 150, 125), "Level 1", buttonStyle))
             { //create button to load level one
                 Application.LoadLevel("level1");
             }
-			if (GUI.Button(new Rect(400, Screen.height / 2 - 75, 150, 125), "Level 2", buttonStyle))
+			if (GUI.Button(new Rect(Screen.width * (3.0f / 5.0f) - 75, Screen.height / 2 - 75, 150, 125), "Level 2", buttonStyle))
             { //create button to load level 2
                 Application.LoadLevel("level2");
             }
-			if (GUI.Button(new Rect(575, Screen.height / 2 - 75, 150, 125), "Level 3", buttonStyle))
+			if (GUI.Button(new Rect(Screen.width * (4.0f / 5.0f) - 75, Screen.height / 2 - 75, 150, 125), "Level 3", buttonStyle))
             { //create button to load level 3
                 Application.LoadLevel("level3");
             }
