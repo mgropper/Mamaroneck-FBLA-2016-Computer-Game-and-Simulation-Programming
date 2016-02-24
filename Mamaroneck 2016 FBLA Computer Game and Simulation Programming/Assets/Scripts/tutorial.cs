@@ -49,10 +49,12 @@ public class tutorial : MonoBehaviour
 	public GUIStyle pauseRetryTextStyle;
 	public Texture arrow;
 	public Texture arrowB;
+	public GameObject city;
+
 	// Use this for initialization
 	void Start ()
 	{
-
+		city.SetActive (false);
 		scoreMenu = false;
 		intro = true;
 		pauseRetry = false;
@@ -218,9 +220,9 @@ public class tutorial : MonoBehaviour
 		if (!intro) {
 			GUI.Label (new Rect (Screen.width / 2, 10, 50, 50), string.Format ("{0:00}:{1:00}", currentMinute, currentSeconds), time);
 			if (Menupause.pauseEnabled || scoreMenu) {
-				GUI.Label (new Rect (50, 15, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
+				GUI.Label (new Rect (50, 15, 25, 25), "Tutorial", afterTitle);
 			} else {
-				GUI.Label (new Rect (175, 25, 25, 25), "Level " + (Application.loadedLevel - 1), afterTitle);
+				GUI.Label (new Rect (175, 25, 25, 25), "Tutorial", afterTitle);
 			}
 			if (!Menupause.pauseEnabled && !scoreMenu) {
 				if (((GUI.Button (new Rect (70, 10, 50, 50), "", retryButton)) || Input.GetKey (KeyCode.R)) && (!intro && !pauseRetry && !pieceExplain && !ele && !sli && !eleSli)) {
@@ -250,6 +252,7 @@ public class tutorial : MonoBehaviour
 				GameObject.Find ("Scripts").GetComponent<Menupause> ().enabled = true; 
 				middleG.SetActive (true);
 				topRightG.SetActive (true);
+				city.SetActive (true);
 				fake.SetActive(false);
 				player.SetActive(true);
 				player.GetComponent<SpriteRenderer> ().sprite = orig;
@@ -276,6 +279,7 @@ public class tutorial : MonoBehaviour
 				Menupause.pauseEnabled = false;
 				Menupause.back = false;
 				slider.able = true;
+				city.SetActive (true);
 				elevator.able = true;
 				PlatformerCharacter2D.ableFlip = true;
 				record = false;
@@ -291,6 +295,7 @@ public class tutorial : MonoBehaviour
 				Menupause.back = false;
 				slider.able = true;
 				elevator.able = true;
+				city.SetActive (true);
 				PlatformerCharacter2D.ableFlip = true;
 				record = true;
 			}
@@ -303,6 +308,7 @@ public class tutorial : MonoBehaviour
 				Menupause.pauseEnabled = false;
 				Menupause.back = false;
 				slider.able = true;
+				city.SetActive (true);
 				elevator.able = true;
 				PlatformerCharacter2D.ableFlip = true;
 				record = true;
@@ -316,6 +322,7 @@ public class tutorial : MonoBehaviour
 				Menupause.pauseEnabled = false;
 				Menupause.back = false;
 				slider.able = true;
+				city.SetActive (true);
 				elevator.able = true;
 				PlatformerCharacter2D.ableFlip = true;
 				record = true;
@@ -329,6 +336,7 @@ public class tutorial : MonoBehaviour
 				Menupause.pauseEnabled = false;
 				Menupause.back = false;
 				slider.able = true;
+				city.SetActive (true);
 				elevator.able = true;
 				PlatformerCharacter2D.ableFlip = true;
 				record = true;

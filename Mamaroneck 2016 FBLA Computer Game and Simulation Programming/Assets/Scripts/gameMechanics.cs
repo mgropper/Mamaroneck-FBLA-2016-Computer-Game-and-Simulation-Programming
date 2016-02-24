@@ -36,7 +36,7 @@ public class gameMechanics : MonoBehaviour
 	public Texture mainMenuT;
 	public Texture restartT;
 	public Texture quitT;
-	public GUIStyle buttonStyle;
+	public GUIStyle buttonStyle; 
 
 	// Use this for initialization
 	void Start()
