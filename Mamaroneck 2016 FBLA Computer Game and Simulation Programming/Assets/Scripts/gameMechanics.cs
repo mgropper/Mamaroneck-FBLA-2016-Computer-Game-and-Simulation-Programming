@@ -173,7 +173,7 @@ public class gameMechanics : MonoBehaviour
 				topLeftG.SetActive (false);
 				bottomLeftG.SetActive (true);
 			}
-		} else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > .5) && wearing.Equals ("shoes")) {
+		} else if (hasObject && (player.transform.position.x < 3 && player.transform.position.x > -.5f) && wearing.Equals ("shoes")) {
 			record = false;
 			GameObject.Find ("character").GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezeAll;
 			score =  120000 / ((currentMinute * 60) + currentSeconds);

@@ -10,8 +10,10 @@ public class MenuTextAndButtons : MonoBehaviour {
 	public GUIStyle rectStyle;
     public GUIStyle buttonStyle;
 	public Font font;
-    void start(){
-
+    void Update(){
+		if (Input.GetKey (KeyCode.Escape)) {
+			Application.Quit();
+		}
     }
 
 	void OnGUI () { 
