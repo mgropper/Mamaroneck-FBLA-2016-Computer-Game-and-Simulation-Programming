@@ -197,18 +197,23 @@ public class gameMechanics : MonoBehaviour
 				Application.LoadLevel (Application.loadedLevel);
 			}
 		}
-		if(scoreMenu){
-			GUI.Box(new Rect(Screen.width/2 - 200, Screen.height / 2 - 190, 400, 100), "Score: " + Mathf.RoundToInt(score));
-			if(GUI.Button (new Rect (Screen.width/2 - 175, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)){
-				Application.LoadLevel(0);
+		if (scoreMenu && Application.loadedLevel != 4) {
+			GUI.Box (new Rect (Screen.width / 2 - 200, Screen.height / 2 - 190, 400, 100), "Score: " + Mathf.RoundToInt (score));
+			if (GUI.Button (new Rect (Screen.width / 2 - 175, Screen.height / 2 - 150, 50, 50), mainMenuT, buttonStyle)) {
+				Application.LoadLevel (0);
 			}
-			if (GUI.Button (new Rect (Screen.width/2 - 75, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
+			if (GUI.Button (new Rect (Screen.width / 2 - 75, Screen.height / 2 - 150, 50, 50), restartT, buttonStyle)) {
 				Application.LoadLevel (Application.loadedLevel);
 			}
-			if (GUI.Button (new Rect (Screen.width/2 + 25, Screen.height / 2 - 	150, 50, 50), quitT, buttonStyle)) {
+			if (GUI.Button (new Rect (Screen.width / 2 + 25, Screen.height / 2 - 150, 50, 50), quitT, buttonStyle)) {
 				Application.Quit ();
 			}
-			if (GUI.Button (new Rect (Screen.width/2 + 125, Screen.height / 2 - 	150, 50, 50), nextLevelT, buttonStyle)) {
+			if (GUI.Button (new Rect (Screen.width / 2 + 125, Screen.height / 2 - 150, 50, 50), nextLevelT, buttonStyle)) {
+				Application.LoadLevel (Application.loadedLevel + 1);
+			}
+		} else if (scoreMenu && Application.loadedLevel == 4) {
+			GUI.Box (new Rect (Screen.width / 2 - 200, Screen.height / 2 - 190, 400, 100), "Score: " + Mathf.RoundToInt (score));
+			if (GUI.Button (new Rect (Screen.width / 2 - 25, Screen.height / 2 - 150, 50, 50), nextLevelT, buttonStyle)) {
 				Application.LoadLevel (Application.loadedLevel + 1);
 			}
 		}
